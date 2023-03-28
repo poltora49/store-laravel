@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\web\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,5 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [ProductsController::class, 'index'])->name('home');
+Route::get('/product/{id}', [ProductsController::class, 'show'])->name('product.show');

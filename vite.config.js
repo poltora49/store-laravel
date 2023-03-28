@@ -7,12 +7,13 @@ export default defineConfig({
             input: [
                 'resources/sass/app.scss',
                 'resources/js/app.js',
-
-                "resources/js/admin/app.js",
-                "resources/css/admin/classic.css",
-                "resources/css/admin/modern.css",
             ],
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+          '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+        }
+      },
 });
