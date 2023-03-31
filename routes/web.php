@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\web\ProductsController;
+use App\Http\Controllers\web\UsersController;
+use App\Http\Controllers\Auth\AdminLoginController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +30,18 @@ Route::group(['middleware' => ['auth:admin']], function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
 });
+Route::middleware("auth:web")->group(function () {
+    Auth::routes();
+    Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
+    Route::patch('/profile/edit', [UsersController::class, 'profile_edit'])->name('profile_edit');
+    Route::patch('/profile/change-password', [UsersController::class, 'change_password'])->name('change_password');
+    Route::get('/favorites', [UsersController::class, 'favorites'])->name('favorites');
+});
 
+Route::middleware("guest:web")->group(function () {
+
+});
 Auth::routes();
-
-Route::get('/', [ProductsController::class, 'index'])->name('home');
+Route::get('/', [ProductsController::class, 'home'])->name('home');
+Route::get('/products', [ProductsController::class, 'index'])->name('product.all');
 Route::get('/product/{id}', [ProductsController::class, 'show'])->name('product.show');

@@ -12,7 +12,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.users.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -36,7 +36,7 @@ class UsersController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('admin.users.show');
     }
 
     /**
@@ -44,7 +44,7 @@ class UsersController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('admin.users.create');
     }
 
     /**

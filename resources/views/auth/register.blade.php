@@ -1,4 +1,8 @@
-@extends('layouts.admin')
+@extends('layouts.web')
+
+@section('header')
+@include('layouts.parts.header-web')
+@endsection
 
 @section('content')
 <div class="container">

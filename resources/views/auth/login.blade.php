@@ -1,4 +1,7 @@
-@extends('layouts.admin')
+@extends('layouts.web')
+@section('header')
+@include('layouts.parts.header-web')
+@endsection
 
 @section('content')
 <div class="container">
@@ -58,11 +61,17 @@
                                     {{ __('Login') }}
                                 </button>
 
+                            </div>
+
+                            <div class="col-md-8 offset-md-4">
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
+                                    <a class="btn btn-link pl-0" href="{{ route('password.request') }}">
+                                        {{ __('Forgot password?') }}
                                     </a>
                                 @endif
+                                <a class="btn btn-link " href="{{ route('register') }}">
+                                {{ __('Sign up') }}
+                                </a>
                             </div>
                         </div>
                     </form>
