@@ -14,7 +14,6 @@ class CategoryFactory extends Factory
             'title' => ucfirst($this->faker->words(2,true)),
             'thumbnail' => $this->faker->image('public/storage/category', 640, 540, null, false),
             'hidden'=> $this->faker->boolean(),
-            'sorting'=> $this->faker->numberBetween(1,999)
         ];
     }
 }

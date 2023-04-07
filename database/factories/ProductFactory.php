@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Model\Category;
+use App\Models\Category;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -22,13 +22,8 @@ class ProductFactory extends Factory
             'description'=> $this->faker->text(),
             'price' => $this->faker->numberBetween(1000, 10000),
             'thumbnail' => $this->faker->image('public/storage/product', 640, 540, null, false),
+            'category_id' => Category::query()->inRandomOrder()->value('id'),
             'hidden'=> $this->faker->boolean(),
-            'sorting'=> $this->faker->numberBetween(1,999)
         ];
-    }
-
-    public function categories(){
-
-        return $this->belongsToMany(Category::class);
     }
 }

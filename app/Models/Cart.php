@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
 {
+    use HasFactory;
+
+    public $table = "cart";
+
     protected $fillable =[
         'session_id',
         'product_id',
@@ -33,7 +37,7 @@ class Cart extends Model
         else{
             $cart = self::create([
                 'session_id' => session()->getId(),
-                'product_id' => $product->price,
+                'product_id' => $product->id,
                 'price' => $product->price,
                 'quantity' => 1
             ]);

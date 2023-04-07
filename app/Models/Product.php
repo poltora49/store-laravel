@@ -15,15 +15,19 @@ class Product extends Model
         'price',
         'description',
         'thumbnail',
+        'category_id',
         'hidden',
-        'sorting'
     ];
 
     public function scopeHidden(Builder $query){
-        $query->where('hidden',false)
-            ->orderBy('sorting');
+        $query->where('hidden',false);
     }
-    public function carts() {
-        return $this->belongsToMany(Cart::class)->withPivot('quantity');
+    public function scopeCategoryName(Builder $builder, $value){
+        $builder->whereHas('category', function($q) use ($value) {
+            $q->where('category_id', 'like', "%{$value}%");
+        });
+    }
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
 }

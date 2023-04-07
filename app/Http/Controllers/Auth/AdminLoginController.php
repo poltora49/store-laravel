@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers as AuthenticatesUsers;
+use \Illuminate\Support\Facades\Auth;
 
 
 class AdminLoginController extends Controller
 {
     use AuthenticatesUsers;
-    
+
       protected $redirectTo = '/admin';
       /**
        * Where to redirect users after login.
@@ -38,7 +39,10 @@ class AdminLoginController extends Controller
               'password' => 'required|min:6'
           ]);
           // Attempt to log the user in
-          if (\Illuminate\Support\Facades\Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+          if (
+            Auth::guard('admin')->attempt(
+                ['email' => $request->email, 'password' => $request->password],
+                 $request->remember)) {
               // if successful, then redirect to their intended location
               return redirect()->intended(route('admin.dashboard'));
           }

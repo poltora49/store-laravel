@@ -18,14 +18,9 @@ return new class extends Migration
             $table->string('title');
             $table->unsignedInteger('price')->default(0);
             $table->text('description');
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('thumbnail')->nullable();
             $table->timestamps();
-        });
-        Schema::create('category_product', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Category::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignIdFor(Product::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-
         });
     }
 
@@ -34,7 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category_product');
         Schema::dropIfExists('products');
     }
 };

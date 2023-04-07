@@ -4,7 +4,7 @@
         @if ($product->thumbnail)
             <img class="card-img-top" src="/storage/product/{{ $product->thumbnail }}" alt="product">
         @else
-            <img class="card-img-top" src="img/without.jpg" alt="product">
+            <img class="card-img-top" src="../img/without.jpg" alt="product">
         @endif
 
 
@@ -20,7 +20,7 @@
         </a>
         <!-- Product actions-->
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{ route('addToCart', $product->id) }}">Add to cart</a></div>
         </div>
     </div>
 </div>

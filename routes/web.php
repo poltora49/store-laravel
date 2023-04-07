@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\web\ProductsController;
 use App\Http\Controllers\web\UsersController;
+use App\Http\Controllers\web\PaymentController;
 use App\Http\Controllers\Auth\AdminLoginController;
+
+
 
 
 /*
@@ -26,9 +29,14 @@ Route::prefix('admin')->group(function () {
 
 
 Route::group(['middleware' => ['auth:admin']], function () {
+    Route::resource('admin/user', App\Http\Controllers\admin\UsersController::class);
+    Route::resource('admin/category', App\Http\Controllers\admin\CategoriesController::class);
+    Route::resource('admin/product', App\Http\Controllers\admin\ProductsController::class);
+    Route::get('admin/transaction', [App\Http\Controllers\admin\PaymentsController::class, 'transaction'])->name('admin.transaction');
     Route::get('admin/', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
+
 });
 Route::middleware("auth:web")->group(function () {
     Auth::routes();
@@ -43,5 +51,8 @@ Route::middleware("guest:web")->group(function () {
 });
 Auth::routes();
 Route::get('/', [ProductsController::class, 'home'])->name('home');
+Route::get('/cart', [PaymentController::class, 'cart'])->name('cart');
+Route::get('/add-to-cart/{id}', [PaymentController::class, 'addToCart'])->name('addToCart');
 Route::get('/products', [ProductsController::class, 'index'])->name('product.all');
-Route::get('/product/{id}', [ProductsController::class, 'show'])->name('product.show');
+Route::get('/products/{id}', [ProductsController::class, 'category'])->name('product.category');
+Route::get('/product/{id}', [ProductsController::class, 'show'])->name('web.product.show');

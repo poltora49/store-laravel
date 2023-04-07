@@ -36,4 +36,13 @@ class ProductsController extends Controller
             "product" => $product,
         ]);
     }
+    public function category($id){
+        $category = Category::findOrFail($id);
+        $products = Product::hidden()->categoryName($id)->paginate(12);
+
+        return view('web.products.category', [
+            "category" => $category,
+            "products" => $products,
+        ]);
+    }
 }

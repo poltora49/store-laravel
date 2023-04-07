@@ -19,7 +19,7 @@ class ProfileForm extends FormRequest
     {
         return [
             "name" => ["required","min:3","max:50"],
-            "email" => ["required","email"],
+            "email" => ["required","email",\Illuminate\Validation\Rule::unique('users')->ignore($this->user()->id)],
             "thumbnail" => ["nullable","image","max:10240"],
             "password" => ["required","min:6"],
         ];

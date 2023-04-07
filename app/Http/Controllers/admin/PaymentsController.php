@@ -7,5 +7,7 @@ use Illuminate\Http\Request;
 
 class PaymentsController extends Controller
 {
-    //
+    public function transaction(){
+        return view('admin.transactions');
+    }
 }

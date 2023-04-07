@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,8 +16,8 @@ class CategoryForm extends FormRequest
     public function rules(): array
     {
         return [
-            "title" => ["required|min:3|max:50|unique:categories,title"],
-            "thumbnail" => ["nullable|image"],
+            "title" => ["required","min:3","max:50","unique:categories,title",\Illuminate\Validation\Rule::unique('users')->ignore($this->user()->id)],
+            "thumbnail" => ["nullable","image"],
         ];
     }
 }

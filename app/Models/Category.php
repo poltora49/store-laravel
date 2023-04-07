@@ -15,15 +15,14 @@ class Category extends Model
         'title',
         'thumbnail',
         'hidden',
-        'sorting'
     ];
 
     public function scopeHidden(Builder $query){
-        $query->where('hidden',false)
-            ->orderBy('sorting');
+        // $query->where('hidden',false)
+        //     ->orderBy('sorting');
     }
 
     public function products(){
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(Product::class)->orderBy("created_at");
     }
 }

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->boolean('hidden')->default(false);
-            $table->integer('sorting')->default(999);
         });
     }
 };

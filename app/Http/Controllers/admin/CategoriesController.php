@@ -4,19 +4,19 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Category;
 
-class UsersController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::query()->get();
+        $categories = Category::query()->get();
 
-        return view('admin.users.index', [
-            "users" => $users,
+        return view('admin.categories.index', [
+            "categories" => $categories,
         ]);
     }
 
@@ -25,7 +25,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        //
     }
 
     /**
@@ -41,7 +41,7 @@ class UsersController extends Controller
      */
     public function show(string $id)
     {
-        return view('admin.users.show');
+        //
     }
 
     /**
@@ -49,7 +49,7 @@ class UsersController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.users.create');
+        //
     }
 
     /**
