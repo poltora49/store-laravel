@@ -28,7 +28,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Add product</h5>
+                        <h5 class="card-title mb-0">Product</h5>
                     </div>
                     <div class="card-body">
                         <form id="product-form"
@@ -107,6 +107,18 @@
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>
+                        @if (isset($product))
+
+                        <form action="{{ route('product.destroy', $product->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="id"  value="{{ $product->id }}">
+                            <button type="submit" class="btn btn-danger mt-3">
+                                Delete
+                            </button>
+                        </form>
+
+                    @endif
                     </div>
                 </div>
             </div>

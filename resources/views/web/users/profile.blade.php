@@ -8,8 +8,8 @@
 <div class="container-xl px-4 mt-4">
 
         <div class="row">
-            <form enctype="multipart/form-data" method="POST" action="{{route('profile_edit')}}">
-                @method('PATCH')
+            <form enctype="multipart/form-data" method="POST" action="{{route('profile_edit', $auth->user()->id)}}">
+                @method('PUT')
                 @csrf
                 <div class="col my-4">
                     <!-- Profile picture card-->
@@ -20,7 +20,7 @@
                             <div class="rounded-circle mb-2 mx-auto" style="width: 150px;height: 150px;display: block;overflow: hidden">
                                 <img class="img-account-profile " style="height: 150px;"
                                 alt="Avatar"
-                                src="/storage/{{ auth()->user()->thumbnail }}" alt="">
+                                src="/storage/user/{{ auth()->user()->thumbnail }}" alt="">
                             </div>
                             @else
                                 <img class="img-account-profile rounded-circle mb-2" src="{{ asset('img/profile-icon.png') }}" alt="">
@@ -41,8 +41,8 @@
                                 <!-- Form Group (username)-->
                                 <div class="mb-3">
                                     <label class="small mb-1">Name</label>
-                                    <input class="form-control" name="name" type="text" placeholder="Enter your username"
-                                    value="{{auth()->user()->name}}">
+                                    <label class="small mb-1">{{auth()->user()->name}}</label>
+                                    <input class="form-control" name="name" type="text" placeholder="Enter your username">
                                     @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -52,8 +52,8 @@
                                 <!-- Form Group (email address)-->
                                 <div class="mb-3">
                                     <label class="small mb-1">Email address</label>
-                                    <input class="form-control" name="email" type="email" placeholder="Enter your email address"
-                                    value="{{auth()->user()->email}}">
+                                    <label class="small mb-1">{{auth()->user()->email}}</label>
+                                    <input class="form-control" name="email" type="email" placeholder="Enter your email address">
                                     @error('email')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -61,22 +61,13 @@
                                     @enderror
                                 </div>
                                 <!-- Form Row-->
-                                <div class="mb-3">
-                                    <label class="small mb-1">Password</label>
-                                    <input class="form-control" name="password" type="text" placeholder="Enter your password">
-                                    @error('password')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
                                 <!-- Save changes button-->
                                 <button class="btn btn-primary" type="submit">Save</button>
                         </div>
                     </div>
                 </div>
             </form>
-            <form enctype="multipart/form-data" method="POST" action="{{route('change_password')}}">
+            <form enctype="multipart/form-data" method="POST" action="{{route('change_password', $auth->user()->id)}}">
                 @method('PATCH')
                 @csrf
                 <div class="col">
@@ -97,7 +88,8 @@
                                     <!-- Form Group (New password)-->
                                     <div class="col-md-6">
                                         <label class="small mb-1">New password</label>
-                                        <input class="form-control" name="new_password" type="text" placeholder="Enter your new password">
+                                        <input class="form-control" name="new_password" type="text"
+                                        placeholder="Enter your new password">
                                         @error('new_password')
                                             <div class="invalid-feedback">
                                                 {{ $message }}

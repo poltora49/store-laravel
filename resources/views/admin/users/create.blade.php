@@ -9,7 +9,7 @@
 
         <div class="header">
             <h1 class="header-title">
-                Validation
+                Settings
             </h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -20,47 +20,112 @@
             </nav>
         </div>
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-3 col-xl-2">
+
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Edit user</h5>
+                        <h5 class="card-title mb-0">User settings</h5>
                     </div>
-                    <div class="card-body">
-                        <form id="validation-form">
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Avatar</label>
-                                <div>
-                                    <input type="file" class="validation-file" name="thumbnail">
-                                </div>
+
+                    <div class="list-group list-group-flush" role="tablist">
+                        <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account" role="tab">
+                            Account
+                        </a>
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password" role="tab">
+                            Password
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9 col-xl-10">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="account" role="tabpanel">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Public info</h5>
                             </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Name</label>
-                                <input type="text" class="form-control" name="name" placeholder="Name">
+                            <div class="card-body">
+                                <form id='user-form' action="{{ route('user.update', $user->id) }}"
+                                method="POST" enctype="multipart/form-data">
+                                @csrf
+                                    @method('PUT')
+
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="mb-3">
+                                                <label for="name">Username</label>
+                                                <h4>{{$user->name}}</h4>
+                                                <input type="text" class="form-control" name="name" placeholder="Name"
+                                                value="{{$user->name}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email">Email</label>
+                                                <h4>{{$user->email}}</h4>
+                                                <input type="email" class="form-control" name="email" placeholder="Email"
+                                                value="{{$user->email}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="text-center">
+                                                @if ($user->thumbnail)
+                                                    <div class="">
+                                                        <img class="rounded-circle img-responsive mt-2"
+                                                        src="/storage/user/{{$user->thumbnail}}" alt="Placeholder"
+                                                        width="140" height="140">
+                                                    </div>
+                                                @else
+                                                    <div class="">
+                                                        <img class="rounded-circle img-responsive mt-2"
+                                                        src="../../../img/profile-icon.png" alt="Placeholder"
+                                                        width="128" height="128">
+                                                    </div>
+                                                @endif
+                                                <div class="mb-3 error-placeholder">
+                                                    <label class="form-label">Image</label>
+                                                    <div>
+                                                        <input type="file" class="validation-file" name="thumbnail">
+                                                    </div>
+                                                </div>
+                                                <small>JPG or PNG no larger than 10mb</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </form>
+
                             </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Email</label>
-                                <input type="text" class="form-control" name="email" placeholder="Email">
-                                <small class="form-text d-block text-muted">Example block-level help text here.</small>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="password" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Password</h5>
+                                <h5 class="card-title">{{$user->password}}</h5>
+                                <form id='user-form-password' action="{{ route('user.change_password', $user->id) }}"
+                                    method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <div class="mb-3">
+                                        <label for="inputPasswordCurrent">Current password</label>
+                                        <input type="password" class="form-control" name="password">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="inputPasswordNew">New password</label>
+                                        <input type="password" class="form-control" name="new_password">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="inputPasswordNew2">Confirm password</label>
+                                        <input type="password" class="form-control" name="new_password_confirmation">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </form>
+
                             </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Password">
-                                <small class="form-text d-block text-muted">Example block-level help text here.</small>
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Confirm password</label>
-                                <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm password">
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Block</label>
-                                <br>
-                                <label class="form-check d-block">
-                                    <input type="checkbox" class="form-check-input" name="block">
-                                    <span class="form-check-label">Block</span>
-                                </label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,36 +141,69 @@
             $(this).valid();
         });
         // Initialize validation
-        $("#validation-form").validate({
+        $("#user-form").validate({
             ignore: ".ignore, .select2-input",
             focusInvalid: false,
             rules: {
                 "email": {
-                    required: true,
+                    required: false,
                     email: true
                 },
-                "password": {
-                    required: false,
-                    minlength: 6,
-                    maxlength: 30
-                },
-                "password_confirmation": {
-                    required: false,
-                    minlength: 6,
-                    equalTo: "input[name=\"validation-password\"]"
-                },
                 "name": {
-                    required: true,
+                    required: false,
                     minlength: 3,
                     maxlength: 50
                 },
                 "thumbnail": {
                     required: false
                 },
-                "block": {
-                    required: false
-                },
             },
+            // Errors
+            errorPlacement: function errorPlacement(error, element) {
+                var $parent = $(element).parents(".error-placeholder");
+                // Do not duplicate errors
+                if ($parent.find(".jquery-validation-error").length) {
+                    return;
+                }
+                $parent.append(
+                    error.addClass("jquery-validation-error small form-text invalid-feedback")
+                );
+            },
+            highlight: function(element) {
+                var $el = $(element);
+                var $parent = $el.parents(".error-placeholder");
+                $el.addClass("is-invalid");
+                // Select2 and Tagsinput
+                if ($el.hasClass("select2-hidden-accessible") || $el.attr("data-role") === "tagsinput") {
+                    $el.parent().addClass("is-invalid");
+                }
+            },
+            unhighlight: function(element) {
+                $(element).parents(".error-placeholder").find(".is-invalid").removeClass("is-invalid");
+            }
+        });
+            $("#user-form-password").validate({
+            ignore: ".ignore, .select2-input",
+            focusInvalid: false,
+            rules: {
+                "password": {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 30
+                },
+                "new_password": {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 30
+                },
+                "new_password_confirmation": {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 30
+                    equalTo: "input[name=\"new_password\"]"
+                },
+
+                },
             // Errors
             errorPlacement: function errorPlacement(error, element) {
                 var $parent = $(element).parents(".error-placeholder");

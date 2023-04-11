@@ -54,9 +54,22 @@
                                             <td>{{$user->email}}</td>
                                             <td><span class="badge bg-success">Active</span></td>
                                             <td class="table-action">
-                                                <a href="#"><i class="align-middle fas fa-fw fa-pen"></i></a>
-                                                <a href="#"><i class="align-middle ion ion-ios-alert"></i></a>
-                                                <a href="#"><i class="align-middle fas fa-fw fa-trash"></i></a>
+                                                <a href="{{ route('user.edit', [$user->id]) }}"><i class="align-middle fas fa-fw fa-pen"></i></a>
+                                                @if($user->status)
+                                                    <a href="#"><i class="align-middle ion ion-ios-alert"></i></a>
+                                                @else
+                                                    <a href="#"><i class="align-middle ion ion-ios-alert"></i></a>
+                                                @endif
+                                                <a href="" onclick="event.preventDefault();if(confirm( 'Are you sure?')){
+                                                    document.getElementById('delete_user_{{ $user->id }}').submit();}">
+                                                    <i class="align-middle fas fa-fw fa-trash"></i>
+                                                </a>
+                                                <form id='delete_user_{{ $user->id }}' action="{{ route('user.destroy', $user->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <input type="hidden" name="id"  value="{{ $user->id }}">
+                                                </form>
+
                                             </td>
                                         </tr>
 

@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Favorite;
 
 class ProductsController extends Controller
 {
     public function home()
     {
+
         $categories = Category::query()->hidden()->get();
         $products = Product::query()->hidden()->limit(6)->get();
 
@@ -32,7 +34,16 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        return view('web.products.show', [
+
+        if(auth()->check()){
+            $favorite = Favorite::where(['user_id'=>auth()->user()->id, 'product_id'=>$product->id])->first();
+
+            return view('web.products.show', [
+                "product" => $product,
+                "favorite" => $favorite,
+            ]);
+        }
+        else return view('web.products.show', [
             "product" => $product,
         ]);
     }

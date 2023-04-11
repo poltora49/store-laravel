@@ -9,13 +9,18 @@
 
         <div class="header">
             <h1 class="header-title">
-                Validation
+                @if (isset($category))Edit {{$category->title}}@else Create @endif
             </h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="dashboard-default.html">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="#">Forms</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Validation</li>
+                    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Category</a></li>
+                    @if (isset($category))
+                    <li class="breadcrumb-item"><a href="#">Edit</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$category->title}}</li>
+                    @else
+                    <li class="breadcrumb-item"><a href="#">Create</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Create</li>
+                    @endif
                 </ol>
             </nav>
         </div>
@@ -23,157 +28,56 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">jQuery Validation</h5>
+                        <h5 class="card-title mb-0">Category</h5>
                     </div>
                     <div class="card-body">
-                        <form id="validation-form">
+                        <form id="product-form"
+                        action="
+                        @if(isset($category)){{ route('category.update', $category->id) }}
+                        @else{{ route('category.store') }}@endif"
+                        method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @if(isset($category))
+                            @method('PUT')
+                        @else
+                            @method("POST")
+                        @endif
                             <div class="mb-3 error-placeholder">
-                                <label class="form-label">Email</label>
-                                <input type="text" class="form-control" name="validation-email" placeholder="Email">
-                                <small class="form-text d-block text-muted">Example block-level help text here.</small>
+                                <label class="form-label">Title</label>
+                                <input type="text" class="form-control" name="title" placeholder="Title"
+                                value="{{ $category->title ?? '' }}">
                             </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Password</label>
-                                <input type="password" class="form-control" name="validation-password" placeholder="Password">
-                                <small class="form-text d-block text-muted">Example block-level help text here.</small>
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Confirm password</label>
-                                <input type="password" class="form-control" name="validation-password-confirmation" placeholder="Confirm password">
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Required</label>
-                                <input type="text" class="form-control" name="validation-required" placeholder="Required">
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">URL</label>
-                                <input type="text" class="form-control" name="validation-url" placeholder="URL">
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Select</label>
-                                <select class="form-control" name="validation-select">
-                                    <option value>Select gear...</option>
-                                    <optgroup label="Climbing">
-                                        <option value="pitons">Pitons</option>
-                                        <option value="cams">Cams</option>
-                                        <option value="nuts">Nuts</option>
-                                        <option value="bolts">Bolts</option>
-                                        <option value="stoppers">Stoppers</option>
-                                        <option value="sling">Sling</option>
-                                    </optgroup>
-                                    <optgroup label="Skiing">
-                                        <option value="skis">Skis</option>
-                                        <option value="skins">Skins</option>
-                                        <option value="poles">Poles</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Multiselect</label>
-                                <select class="form-control" name="validation-multiselect" multiple>
-                                    <optgroup label="Climbing">
-                                        <option value="pitons">Pitons</option>
-                                        <option value="cams">Cams</option>
-                                        <option value="nuts">Nuts</option>
-                                        <option value="bolts">Bolts</option>
-                                        <option value="stoppers">Stoppers</option>
-                                        <option value="sling">Sling</option>
-                                    </optgroup>
-                                    <optgroup label="Skiing">
-                                        <option value="skis">Skis</option>
-                                        <option value="skins">Skins</option>
-                                        <option value="poles">Poles</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Select2</label>
-                                <div class="d-flex">
-                                    <select class="form-control" name="validation-select2" style="width: 100%">
-                                        <option value>Select gear...</option>
-                                        <optgroup label="Climbing">
-                                            <option value="pitons">Pitons</option>
-                                            <option value="cams">Cams</option>
-                                            <option value="nuts">Nuts</option>
-                                            <option value="bolts">Bolts</option>
-                                            <option value="stoppers">Stoppers</option>
-                                            <option value="sling">Sling</option>
-                                        </optgroup>
-                                        <optgroup label="Skiing">
-                                            <option value="skis">Skis</option>
-                                            <option value="skins">Skins</option>
-                                            <option value="poles">Poles</option>
-                                        </optgroup>
-                                    </select>
+                            @if (isset($category))
+                                @if ($category->thumbnail)
+                                    <div class="">
+                                        <img class="rounded me-2 mb-2" src="/storage/category/{{$category->thumbnail}}" alt="Placeholder" width="140" height="140">
+                                    </div>
+                                @else
+                                <div class="">
+                                    <img class="rounded me-2 mb-2" src="../img/whithout.jpg" alt="Placeholder" width="140" height="140">
                                 </div>
-                            </div>
+                                @endif
+                            @endif
                             <div class="mb-3 error-placeholder">
-                                <label class="form-label">Select2 Multiple</label>
-                                <div class="d-flex">
-                                    <select class="form-control" name="validation-select2-multi" multiple style="width: 100%">
-                                        <optgroup label="Climbing">
-                                            <option value="pitons">Pitons</option>
-                                            <option value="cams">Cams</option>
-                                            <option value="nuts">Nuts</option>
-                                            <option value="bolts">Bolts</option>
-                                            <option value="stoppers">Stoppers</option>
-                                            <option value="sling">Sling</option>
-                                        </optgroup>
-                                        <optgroup label="Skiing">
-                                            <option value="skis">Skis</option>
-                                            <option value="skins">Skins</option>
-                                            <option value="poles">Poles</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Text</label>
-                                <textarea class="form-control" name="validation-text"></textarea>
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">File</label>
+                                <label class="form-label">Image</label>
                                 <div>
-                                    <input type="file" class="validation-file" name="validation-file">
+                                    <input type="file" class="validation-file" name="thumbnail">
                                 </div>
                             </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Radios</label>
-                                <label class="form-check">
-                                    <input name="validation-radios" type="radio" class="form-check-input">
-                                    <span class="form-check-label">Option one is this and that—be sure to include why it's great</span>
-                                </label>
-                                <label class="form-check">
-                                    <input name="validation-radios" type="radio" class="form-check-input">
-                                    <span class="form-check-label">Option two can be something else and selecting it will deselect option one</span>
-                                </label>
-                                <label class="form-check">
-                                    <input name="validation-radios" type="radio" class="form-check-input">
-                                    <span class="form-check-label">Option three is disabled</span>
-                                </label>
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Checkbox</label>
-                                <br>
-                                <label class="form-check d-block">
-                                    <input type="checkbox" class="form-check-input" name="validation-checkbox">
-                                    <span class="form-check-label">Check me</span>
-                                </label>
-                            </div>
-                            <div class="mb-3 error-placeholder">
-                                <label class="form-label">Checkbox group</label>
-                                <label class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="validation-checkbox-group-1">
-                                    <span class="form-check-label">One</span>
-                                </label>
-                                <label class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="validation-checkbox-group-2">
-                                    <span class="form-check-label">Two</span>
-                                </label>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </form>
+                        @if (isset($category))
+
+                            <form action="{{ route('category.destroy', $category->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="id"  value="{{ $category->id }}">
+                                <button type="submit" class="btn btn-danger mt-3">
+                                    Delete
+                                </button>
+                            </form>
+
+                        @endif
                     </div>
                 </div>
             </div>
@@ -181,90 +85,25 @@
     </div>
 </main>
 @endsection
-@push()
+@push('script')
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Initialize Select2 select box
-        $("select[name=\"validation-select2\"]").select2({
-            allowClear: true,
-            placeholder: "Select gear...",
-        }).change(function() {
-            $(this).valid();
-        });
-        // Initialize Select2 multiselect box
-        $("select[name=\"validation-select2-multi\"]").select2({
-            placeholder: "Select gear...",
-        }).change(function() {
-            $(this).valid();
-        });
-        // Trigger validation on tagsinput change
         $("input[name=\"validation-bs-tagsinput\"]").on("itemAdded itemRemoved", function() {
-            $(this).valid();
-        });
+                $(this).valid();
+            });
         // Initialize validation
-        $("#validation-form").validate({
+        $("#product-form").validate({
             ignore: ".ignore, .select2-input",
             focusInvalid: false,
             rules: {
-                "validation-email": {
+                "title": {
                     required: true,
-                    email: true
+                    minlength: 3,
+                    maxlength: 150,
                 },
-                "validation-password": {
-                    required: true,
-                    minlength: 6,
-                    maxlength: 20
+                "thumbnail": {
+                    required: false,
                 },
-                "validation-password-confirmation": {
-                    required: true,
-                    minlength: 6,
-                    equalTo: "input[name=\"validation-password\"]"
-                },
-                "validation-required": {
-                    required: true
-                },
-                "validation-url": {
-                    required: true,
-                    url: true
-                },
-                "validation-select": {
-                    required: true
-                },
-                "validation-multiselect": {
-                    required: true,
-                    minlength: 2
-                },
-                "validation-select2": {
-                    required: true
-                },
-                "validation-select2-multi": {
-                    required: true,
-                    minlength: 2
-                },
-                "validation-text": {
-                    required: true
-                },
-                "validation-file": {
-                    required: true
-                },
-                "validation-radios": {
-                    required: true
-                },
-                "validation-checkbox": {
-                    required: true
-                },
-                "validation-checkbox-group-1": {
-                    require_from_group: [1, "input[name=\"validation-checkbox-group-1\"], input[name=\"validation-checkbox-group-2\"]"]
-                },
-                "validation-checkbox-group-2": {
-                    require_from_group: [1, "input[name=\"validation-checkbox-group-1\"], input[name=\"validation-checkbox-group-2\"]"]
-                },
-                "validation-checkbox-group-1": {
-                    require_from_group: [1, "input[name=\"validation-checkbox-group-1\"], input[name=\"validation-checkbox-group-2\"]"]
-                },
-                "validation-checkbox-group-2": {
-                    require_from_group: [1, "input[name=\"validation-checkbox-group-1\"], input[name=\"validation-checkbox-group-2\"]"]
-                }
             },
             // Errors
             errorPlacement: function errorPlacement(error, element) {

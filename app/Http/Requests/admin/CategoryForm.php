@@ -16,7 +16,7 @@ class CategoryForm extends FormRequest
     public function rules(): array
     {
         return [
-            "title" => ["required","min:3","max:50","unique:categories,title",\Illuminate\Validation\Rule::unique('users')->ignore($this->user()->id)],
+            "title" => ["required","min:3","max:50",\Illuminate\Validation\Rule::unique('categories', 'title')->ignore($this->category)],
             "thumbnail" => ["nullable","image"],
         ];
     }

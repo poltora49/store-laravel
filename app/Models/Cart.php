@@ -29,6 +29,9 @@ class Cart extends Model
 
     public static function add($product_id){
         $product = Product::findOrFail($product_id);
+        if($product->hidden){
+            return route("home");
+        }
 
         if($cart= self::where(['session_id' => session()->getId(), 'product_id' => $product->id])->first()){
             $cart->quantity++;
@@ -61,7 +64,19 @@ class Cart extends Model
     public static function remove($id){
         return self::destroy($id);
     }
+    public static function removeOne($id){
+        $cart = self::where(['session_id' => session()->getId(), 'product_id' => $id])->first();
+        if($cart){
+            if($cart->quantity==1){
+                return self::remove($cart->id);
+            }
+            $cart->quantity--;
+            $cart->save();
 
+            return $cart;
+        }
+        return route("home");
+    }
 
     public static function flush()  {
         return self::where(['session_id'=>session()->getId()])->delete();
@@ -73,6 +88,9 @@ class Cart extends Model
             return $item->price*$item->quantity;
         })->sum();
     }
+
+
+
     public function products() {
         return $this->belongsToMany(Product::class)->withPivot('quantity');
     }
