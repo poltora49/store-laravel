@@ -38,7 +38,7 @@
         </a>
     </div>
     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-        <h6 class="mb-0" >€ <span id="price{{$cart->product_id}}">{{$cart->price}}</span></h6>
+        <h6 class="mb-0" >€ <span id="price{{$cart->product_id}}">{{$cart->price/100 }}</span></h6>
     </div>
     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
         @auth('web')

@@ -48,7 +48,7 @@
                                 value="{{ $product->title ?? '' }}">
                             </div>
                             <div class="mb-3 error-placeholder">
-                                <label class="form-label">Price</label>
+                                <label class="form-label">Price*100</label>
                                 <input type="text" class="form-control" name="price" placeholder="Price"
                                 value="{{ $product->price ?? '' }}">
                             </div>

@@ -40,7 +40,7 @@
                                         <tr>
                                             <td>{{$product->id}}</td>
                                             <td>{{$product->title}}</td>
-                                            <td>{{$product->price}}</td>
+                                            <td>{{$product->price/100}}</td>
                                             <td>
                                                 @if($product->hidden)
                                                     <i class="ion ion-ios-checkmark-circle me-2"></i>

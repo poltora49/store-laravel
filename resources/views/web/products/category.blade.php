@@ -21,15 +21,15 @@
                         @include('web.products.parts.card', ['product' => $product, 'favorite' => false])
                     @endif
                 @endauth
+                @guest
                     @include('web.products.parts.card', ['product' => $product, 'favorite' => false])
+                @endguest
                 @endforeach
 
             </div>
         </div>
-        @if ($products->count() > 6)
             <div class="posts-paginator d-flex justify-content-center py-5">
                 {{ $products->onEachSide(1)->withQueryString()->links() }}
             </div>
-        @endif
     </section>
 @endsection

@@ -12,7 +12,7 @@
         <div class="col-md-8 w-100">
             <div class="card-body">
                 <h5 class="card-title text-center">{{ $product->title }}</h5>
-                <h5 class="card-text text-center">${{$product->price}}</h5>
+                <h5 class="card-text text-center">${{$product->price/100}}</h5>
                 <div class="card-price p-4 pt-0 border-top-0 bg-transparent text-end">
                     @auth('web')
                     @if ($favorite)

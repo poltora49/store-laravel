@@ -29,8 +29,10 @@
 
         </div>
     </div>
-        {{-- <div class="posts-paginator d-flex justify-content-center py-5">
-            {{ $favorites->onEachSide(1)->withQueryString()->links() }}
-        </div> --}}
+    @if (!Route::is('home'))
+        <div class="posts-paginator d-flex justify-content-center py-5">
+            {{ $products->onEachSide(1)->withQueryString()->links() }}
+        </div>
+    @endif
 </section>
 @endsection

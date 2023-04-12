@@ -18,6 +18,7 @@ class UsersController extends Controller
         return view('web.users.profile');
     }
 
+
     public function profile_edit(ProfileForm $request, User $user)
     {
         if(($request->has("thumbnail")) and ($user->thumbnail!=null)){
@@ -53,6 +54,8 @@ class UsersController extends Controller
         return back()->with('success', "Password Changed Successfully");
     }
 
+
+
     public function favorites()
     {
         $favorites=Favorite::get(auth()->user()->id);
@@ -76,6 +79,7 @@ class UsersController extends Controller
         Favorite::flush(auth()->user()->id);
         return redirect()->back();
     }
+
 
     protected function deleteImage($product){
         if(Storage::disk('public')->exists('user/'.$product->thumbnail)){

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\web\ProductsController;
 use App\Http\Controllers\web\UsersController;
+use App\Http\ControllersPaymentController;
+use App\Http\Controllers\web\StripePaymentController;
 use App\Http\Controllers\web\PaymentController;
 use App\Http\Controllers\Auth\AdminLoginController;
 
@@ -44,6 +46,7 @@ Route::prefix('admin')->group(function () {
 Route::middleware("auth:web")->group(function () {
     Auth::routes();
     Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
+    Route::get('/transactions', [StripePaymentController::class, 'transactions'])->name('transactions');
     Route::put('/profile/{id}/edit', [UsersController::class, 'profile_edit'])->name('profile_edit');
     // Route::put('/profile/{id}/change-password', [UsersController::class, 'change_password'])->name('change_password');
     Route::get('/favorites', [UsersController::class, 'favorites'])->name('favorites');
@@ -51,7 +54,7 @@ Route::middleware("auth:web")->group(function () {
     Route::get('/add-to-favorite', [UsersController::class, 'addToFavorite'])->name('favorite.add');
     Route::get('/remove-from-favorite', [UsersController::class, 'removeFromFavorite'])->name('favorite.remove');
     Route::get('/clear-favorite', [UsersController::class, 'clearFavorite'])->name('favorite.clear');
-
+    Route::post('/stripe', [StripePaymentController::class, 'stripePost'])->name('stripe');
 });
 
 Route::middleware("guest:web")->group(function () {

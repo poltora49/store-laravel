@@ -30,13 +30,18 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <th>User</th>
+                                        <th>Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($transactions as $transaction)
+                                        <tr>
+                                            <td>{{$transaction->id}}</td>
+                                            <td>{{App\Models\User::findOrFail($transaction->user_id)->name}}</td>
+                                            <td>{{$transaction->total_price/100}}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

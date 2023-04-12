@@ -23,7 +23,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->numberBetween(1000, 10000),
             'thumbnail' => $this->faker->image('public/storage/product', 640, 540, null, false),
             'category_id' => Category::query()->inRandomOrder()->value('id'),
-            'hidden'=> $this->faker->boolean(),
+            'hidden'=> false,
         ];
     }
 }

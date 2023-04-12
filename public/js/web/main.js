@@ -20,15 +20,15 @@ $(function() {
                 if(value=='')value='0';
                 // total count add 1
                 $('#totalCount').empty();
-                $('#totalCount').append( parseInt(value)+1);
+                $('#totalCount').append( parseFloat(value)+1);
                 // quantity add 1
                 quantity = $('#quantity'+id).text();
-                $(`#quantity${id}`).text(parseInt(quantity)+1)
+                $(`#quantity${id}`).text(parseFloat(quantity)+1)
                 //total price add 1 element
-                totalPrice = parseInt($('#totalPrice').text())+parseInt($(`#price${id}`).text());
+                totalPrice = parseFloat($('#totalPrice').text())+parseFloat($(`#price${id}`).text());
                 console.log(totalPrice);
                 $('#totalPrice').empty();
-                $('#totalPrice').append(totalPrice);
+                $('#totalPrice').append(totalPrice.toFixed(2));
 
             },
             error: function (data) {
@@ -52,15 +52,15 @@ $(function() {
             data: {'id': id},
             success: function (data) {
                 var total= $('#totalCount').text();
-                if(parseInt(total)!=1){
+                if(parseFloat(total)!=1){
                     $('#totalCount').empty();
-                    $('#totalCount').append( parseInt(total)-1);
+                    $('#totalCount').append( parseFloat(total)-1);
                     let quantity = $(`#quantity${id}`).text();
-                    let price = parseInt($(`#price${id}`).text())
+                    let price = parseFloat($(`#price${id}`).text())
                     //check quantity
                     if(quantity!=1){
                     //subtract quantity
-                        $(`#quantity${id}`).text(parseInt(quantity)-1)
+                        $(`#quantity${id}`).text(parseFloat(quantity)-1)
                         console.log(quantity);
                     }
                     else{
@@ -69,9 +69,9 @@ $(function() {
                     }
 
                     //total price remove 1 element
-                    totalPrice = parseInt($('#totalPrice').text())-price;
+                    totalPrice = parseFloat($('#totalPrice').text())-price;
                     $('#totalPrice').empty();
-                    $('#totalPrice').append(totalPrice);
+                    $('#totalPrice').append(totalPrice.toFixed(2));
                 }
                 else {
                     // all clear
@@ -101,11 +101,11 @@ $(function() {
             type: 'GET',
             data: {'id': cart_id},
             success: function (data) {
-                let total= parseInt($('#totalCount').text());
+                let total= parseFloat($('#totalCount').text());
                 if(total!=1){
-                    let quantity = parseInt($(`#quantity${id}`).text());
-                    let price = parseInt($(`#price${id}`).text());
-                    let totalPrice = parseInt($('#totalPrice').text())-price*quantity;
+                    let quantity = parseFloat($(`#quantity${id}`).text());
+                    let price = parseFloat($(`#price${id}`).text());
+                    let totalPrice = parseFloat($('#totalPrice').text())-price*quantity;
                     //subtract quantity
                     $('#totalCount').empty();
                     $('#totalCount').append( total-quantity);
@@ -115,7 +115,7 @@ $(function() {
 
                     //total price remove 1 element
                     $('#totalPrice').empty();
-                    $('#totalPrice').append(totalPrice);
+                    $('#totalPrice').append(totalPrice.toFixed(2));
                 }
                 else {
                     // all clear

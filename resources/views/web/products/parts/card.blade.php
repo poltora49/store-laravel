@@ -15,7 +15,7 @@
                 <!-- Product name-->
                 <h5 class="fw-bolder">{{ $product->title }}</h5>
                 <!-- Product price-->
-                ${{ $product->price }}
+                ${{ $product->price/100 }}
             </div>
         </a>
         <!-- Product actions-->

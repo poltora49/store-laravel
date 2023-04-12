@@ -24,14 +24,16 @@
                                     @endif
                                 </div>
                                 @foreach ($carts as $cart)
-                                @auth('web')
-                                    @if (App\Models\Favorite::where(['user_id' => auth()->user()->id, 'product_id' => $cart->product_id])->first())
-                                        @include('web.payments.parts.card-cart', ['cart' => $cart, 'favorite' => true])
-                                    @else
+                                    @auth('web')
+                                        @if (App\Models\Favorite::where(['user_id' => auth()->user()->id, 'product_id' => $cart->product_id])->first())
+                                            @include('web.payments.parts.card-cart', ['cart' => $cart, 'favorite' => true])
+                                        @else
+                                            @include('web.payments.parts.card-cart', ['cart' => $cart, 'favorite' => false])
+                                        @endif
+                                    @endauth
+                                    @guest
                                         @include('web.payments.parts.card-cart', ['cart' => $cart, 'favorite' => false])
-                                    @endif
-                                @endauth
-                                    @include('web.payments.parts.card-cart', ['cart' => $cart, 'favorite' => false])
+                                    @endguest
                                 @endforeach
 
                                 <div class="pt-5">
@@ -53,12 +55,14 @@
                                 <hr class="my-4">
                                 <div class="d-flex justify-content-between mb-5">
                                     <h5 class="text-uppercase">Total price</h5>
-                                    <h5>€ <span id="totalPrice">{{\App\Models\Cart::total()}}<span></h5>
+                                    <h5>€ <span id="totalPrice">{{\App\Models\Cart::total()/100}}<span></h5>
                                 </div>
-
-
-                                <button type="button" class="btn btn-dark btn-block btn-lg"
+                                <form method="POST" action="{{route('stripe')}}">
+                                @csrf
+                                @method('POST')
+                                <button type="submit"  id="checkout-button" class="btn btn-dark btn-block btn-lg"
                                     data-mdb-ripple-color="dark">Pay</button>
+                                </form>
                                 @endif
 
                             </div>
