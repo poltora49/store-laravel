@@ -18,9 +18,8 @@ class ProfileForm extends FormRequest
     public function rules(): array
     {
         return [
-            "email" => ["required","email","unique:users,email,". $this->user->id],
-            "name" => ["required","min:3","max:50"],
-            "thumbnail" => ["nullable","image","max:10240"],
+            "name" => ["sometimes","min:3","max:50"],
+            "thumbnail" => ["sometimes","nullable","image","max:9140"],
         ];
     }
 

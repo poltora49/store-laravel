@@ -32,7 +32,7 @@ class CategoriesController extends Controller
     public function store(CategoryForm $request)
     {
         Category::create($this->saveImage($request,'category'));
-        return redirect(route('category.index'));
+        return redirect(route('category.index', ['success' => "Add Successfully"]));
     }
 
     /**
@@ -64,7 +64,7 @@ class CategoriesController extends Controller
             $this->deleteImage($category);
         }
         $category->update($this->saveImage($request, 'category'));
-        return redirect(route('category.edit', $category->id));
+        return redirect()->back()->with('success', "Changed Successfully");
     }
 
     /**
@@ -74,7 +74,7 @@ class CategoriesController extends Controller
     {
         $this->deleteImage($category);
         $category->delete();
-        return redirect(route('category.index'));
+        return redirect(route('category.index', ['success' => "Delete Successfully"]));
 
     }
 

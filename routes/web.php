@@ -29,26 +29,31 @@ Route::prefix('admin')->group(function () {
 
 
     Route::group(['middleware' => ['auth:admin']], function () {
-        Route::fallback(function () {
-            return redirect()->route('admin.dashboard');
-        });
+        Route::post('admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+        Route::get('product/hide/{id}', [App\Http\Controllers\admin\ProductsController::class, 'hide'])->name('product.hide');
         Route::get('/', function () {
             return view('admin.dashboard');
         })->name('admin.dashboard');
         Route::post('logout', [AdminLoginController::class, 'logout'])->name('admin.auth.logout');
         Route::get('transaction', [App\Http\Controllers\admin\PaymentsController::class, 'transaction'])->name('admin.transaction');
-        Route::patch('user/{id}/change-password', [UsersController::class, 'change_password'])->name('user.change_password');
+        Route::patch('user/{id}/change-password', [App\Http\Controllers\admin\UsersController::class, 'change_password'])->name('user.change_password');
+        Route::patch('user/{id}/block', [App\Http\Controllers\admin\UsersController::class, 'block'])->name('user.block');
+        Route::patch('user/{id}/change-email', [App\Http\Controllers\admin\UsersController::class, 'change_email'])->name('user.change_email');
         Route::resource('user', App\Http\Controllers\admin\UsersController::class);
         Route::resource('category', App\Http\Controllers\admin\CategoriesController::class);
         Route::resource('product', App\Http\Controllers\admin\ProductsController::class);
+        Route::fallback(function () {
+            return redirect()->route('admin.dashboard');
+        });
     });
 });
 Route::middleware("auth:web")->group(function () {
     Auth::routes();
     Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
     Route::get('/transactions', [StripePaymentController::class, 'transactions'])->name('transactions');
-    Route::put('/profile/{id}/edit', [UsersController::class, 'profile_edit'])->name('profile_edit');
-    // Route::put('/profile/{id}/change-password', [UsersController::class, 'change_password'])->name('change_password');
+    Route::put('/profile/{edit', [UsersController::class, 'profile_edit'])->name('profile_edit');
+    Route::put('/profile/change-password', [UsersController::class, 'change_password'])->name('change_password');
+    Route::put('/profile/change-email', [UsersController::class, 'change_email'])->name('change_email');
     Route::get('/favorites', [UsersController::class, 'favorites'])->name('favorites');
 
     Route::get('/add-to-favorite', [UsersController::class, 'addToFavorite'])->name('favorite.add');

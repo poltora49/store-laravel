@@ -46,11 +46,17 @@
                                 <label class="form-label">Title</label>
                                 <input type="text" class="form-control" name="title" placeholder="Title"
                                 value="{{ $product->title ?? '' }}">
+                                @error('title')
+                                    <p class="text-warning"> {{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="mb-3 error-placeholder">
                                 <label class="form-label">Price*100</label>
                                 <input type="text" class="form-control" name="price" placeholder="Price"
                                 value="{{ $product->price ?? '' }}">
+                                @error('price')
+                                    <p class="text-warning"> {{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="mb-3 error-placeholder">
                                 <label class="form-label">Category</label>
@@ -72,10 +78,16 @@
                                         @endforeach
                                     @endif
                                 </select>
+                                @error('category_id')
+                                    <p class="text-warning"> {{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="mb-3 error-placeholder">
                                 <label class="form-label">Descriptiom</label>
                                 <textarea class="form-control" name="description">{{ $product->description ?? '' }}</textarea>
+                                @error('description')
+                                    <p class="text-warning"> {{ $message }}</p>
+                                @enderror
                             </div>
                             @if (isset($product))
                                 @if ($product->thumbnail)
@@ -93,6 +105,9 @@
                                 <div>
                                     <input type="file" class="validation-file" name="thumbnail">
                                 </div>
+                                @error('thumbnail')
+                                    <p class="text-warning"> {{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="mb-3 error-placeholder">
                                 <label class="form-label">Hide</label>
@@ -104,6 +119,9 @@
                                     @endif>
                                     <span class="form-check-label">Hide</span>
                                 </label>
+                                @error('hidden')
+                                    <p class="text-warning"> {{ $message }}</p>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>

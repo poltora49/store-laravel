@@ -11,31 +11,31 @@
                                 <div class="text-center">
                                     <h1 class="h2">Admin</h1>
                                 </div>
-                                <form method="POST" action="{{ route('admin.auth.loginAdmin') }}">
+                                <form method="POST" id="admin-email-form" action="{{ route('admin.auth.loginAdmin') }}">
                                     @csrf
-                                    <div class="mb-3">
+                                    <div class="mb-3 error-placeholder">
 
                                         <label>Email</label>
                                         <input class="form-control form-control-lg {{ $errors->has('email') ? ' is-invalid' : '' }}"
                                         type="email" name="email" placeholder="Enter your email" />
-
-                                        @if ($errors->has('email'))
-                                            <span class="invalid-feedback">
-                                            <strong>{{ $errors->first('email') }}</strong>
-                                            </span>
-                                        @endif
+                                        @error('email')
+                                            <p class="text-warning">
+                                            {{ $message }}
+                                            </p>
+                                        @enderror
 
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 error-placeholder">
 
                                         <label>Password</label>
                                         <input class="form-control form-control-lg {{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                        type="password" name="password" placeholder="Enter your password" />
+                                        type="password" name="password" placeholder="Enter your password" autocomplete="off"/>
 
-                                        @if ($errors->has('password'))
-                                        <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                        @endif
+                                        @error('password')
+                                            <p class="text-warning">
+                                            <strong>{{ $errors->first('password') }}</strong>
+                                            </p>
+                                        @enderror
 
                                     </span>
                                     </div>
@@ -62,3 +62,52 @@
     </div>
 </main>
 @endsection
+@push('script')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Trigger validation on tagsinput change
+        $("input[name=\"validation-bs-tagsinput\"]").on("itemAdded itemRemoved", function() {
+            $(this).valid();
+        });
+            $("#admin-email-form").validate({
+            ignore: ".ignore, .select2-input",
+            focusInvalid: false,
+            rules: {
+                "password": {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 30
+                },
+                "email": {
+                    required:true,
+                    email: true
+                },
+
+                },
+            // Errors
+            errorPlacement: function errorPlacement(error, element) {
+                var $parent = $(element).parents(".error-placeholder");
+                // Do not duplicate errors
+                if ($parent.find(".jquery-validation-error").length) {
+                    return;
+                }
+                $parent.append(
+                    error.addClass("jquery-validation-error small form-text invalid-feedback")
+                );
+            },
+            highlight: function(element) {
+                var $el = $(element);
+                var $parent = $el.parents(".error-placeholder");
+                $el.addClass("is-invalid");
+                // Select2 and Tagsinput
+                if ($el.hasClass("select2-hidden-accessible") || $el.attr("data-role") === "tagsinput") {
+                    $el.parent().addClass("is-invalid");
+                }
+            },
+            unhighlight: function(element) {
+                $(element).parents(".error-placeholder").find(".is-invalid").removeClass("is-invalid");
+            }
+        });
+    });
+</script>
+@endpush

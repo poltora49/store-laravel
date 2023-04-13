@@ -36,7 +36,10 @@
                     @endif
 
                     @endauth
-                    <div class="text-right"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                    <div ><a class="btn btn-outline-dark mt-auto add-to-cart" data-id='{{$product->id}}'
+                        href="#">Add to cart</a></div>
+
+                </div>
                 </div>
                 <p class="card-text">{{ $product->description }}</p>
             </div>

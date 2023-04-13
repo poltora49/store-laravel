@@ -17,7 +17,7 @@ class Favorite extends Model
     ];
 
     public static function get($user_id){
-       return self::where(['user_id'=>$user_id])->get();
+       return self::where(['user_id'=>$user_id]);
     }
 
     public static function add($product_id, $user_id){

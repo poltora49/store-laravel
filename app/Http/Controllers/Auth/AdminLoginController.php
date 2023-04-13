@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers as AuthenticatesUsers;
 use \Illuminate\Support\Facades\Auth;
+use App\Http\Requests\admin\LoginAdminForm;
 
 
 class AdminLoginController extends Controller
@@ -31,13 +32,8 @@ class AdminLoginController extends Controller
       {
           return view('auth.adminLogin');
       }
-      public function loginAdmin(Request $request)
+      public function loginAdmin(LoginAdminForm $request)
       {
-          // Validate the form data
-          $this->validate($request, [
-              'email'   => 'required|email',
-              'password' => 'required|min:6'
-          ]);
           // Attempt to log the user in
           if (
             Auth::guard('admin')->attempt(

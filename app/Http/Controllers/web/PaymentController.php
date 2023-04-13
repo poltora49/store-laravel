@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Favorite;
 use App\Models\Cart;
@@ -21,22 +22,31 @@ class PaymentController extends Controller
     }
     public function addToCart(Request $request)
     {
-        Cart::add($request->input('id'));
+        $request = Validator::make($request->all(), [
+            'id' => ['required','exists:products,id'],
+        ])->safe()->all();
+        Cart::add($request['id']);
         // return response()->json('status' =>, 200, $headers);
     }
     public function removeFromCart(Request $request)
     {
-        Cart::remove($request->input('id'));
+        $request = Validator::make($request->all(), [
+            'id' => ['required','exists:cart,id'],
+        ])->safe()->all();
+        Cart::remove($request['id']);
         // return response()->json('status' =>, 200, $headers);
     }
     public function removeOneFromCart(Request $request)
     {
-        Cart::removeOne($request->input('id'));
+        $request = Validator::make($request->all(), [
+            'id' => ['required','exists:products,id'],
+        ])->safe()->all();
+        Cart::removeOne($request['id']);
         // return response()->json('status' =>, 200, $headers);
     }
-    public function clearCart(Request $request)
+    public function clearCart()
     {
-        Cart::flush($request->input('id'));
+        Cart::flush();
         return redirect()->back();
     }
 }

@@ -46,6 +46,9 @@
                                 <label class="form-label">Title</label>
                                 <input type="text" class="form-control" name="title" placeholder="Title"
                                 value="{{ $category->title ?? '' }}">
+                                @error('title')
+                                    <p class="text-warning"> {{ $message }}</p>
+                                @enderror
                             </div>
                             @if (isset($category))
                                 @if ($category->thumbnail)
@@ -63,6 +66,9 @@
                                 <div>
                                     <input type="file" class="validation-file" name="thumbnail">
                                 </div>
+                                @error('thumbnail')
+                                    <p class="text-warning"> {{ $message }}</p>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>

@@ -51,12 +51,14 @@
                                                 @endif
                                             </td>
                                             <td class="table-action">
-                                                <a href="{{ route('product.edit', [$product->id]) }}"><i class="align-middle fas fa-fw fa-pen"></i></a>
+                                                <a href="{{ route('product.edit', $product->id) }}"><i class="align-middle fas fa-fw fa-pen"></i></a>
+                                                <a href="{{ route('product.hide', $product->id) }}">
                                                 @if($product->hidden)
-                                                    <a href="#"><i class="ion ion-ios-eye-off me-2"></i></a>
+                                                    <i class="ion ion-ios-eye-off me-2"></i>
                                                 @else
-                                                    <a href="#"><i class="ion ion-ios-eye me-2"></i></a>
+                                                    <i class="ion ion-ios-eye me-2"></i>
                                                 @endif
+                                                </a>
                                                 <a href="" onclick="event.preventDefault();if(confirm( 'Are you sure?')){
                                                     document.getElementById('delete_product_{{ $product->id }}').submit();}">
                                                     <i class="align-middle fas fa-fw fa-trash"></i>

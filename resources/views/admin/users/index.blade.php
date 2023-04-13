@@ -42,7 +42,7 @@
                                         <tr>
                                             <td>
                                                 @if ($user->thumbnail)
-                                                <img src="/storage/product/{{$user->thumbnail}}" width="32" height="32"
+                                                <img src="/storage/user{{$user->thumbnail}}" width="32" height="32"
                                                     class="rounded-circle my-n1" alt="Avatar">
                                                 @else
                                                 <img src="../img/profile-icon.png" width="32" height="32"
@@ -52,18 +52,27 @@
                                             </td>
                                             <td>{{$user->name}}</td>
                                             <td>{{$user->email}}</td>
-                                            <td><span class="badge bg-success">Active</span></td>
+                                            @if($user->status)
+                                                <td><span class="badge bg-success">Active</span></td>
+                                            @else
+                                                <td><span class="badge bg-danger">Block</span></td>
+                                            @endif
                                             <td class="table-action">
                                                 <a href="{{ route('user.edit', [$user->id]) }}"><i class="align-middle fas fa-fw fa-pen"></i></a>
-                                                @if($user->status)
-                                                    <a href="#"><i class="align-middle ion ion-ios-alert"></i></a>
-                                                @else
-                                                    <a href="#"><i class="align-middle ion ion-ios-alert"></i></a>
-                                                @endif
+                                                <a href="#" onclick="event.preventDefault();if(confirm( 'Are you sure?')){
+                                                        document.getElementById('block_user_{{ $user->id }}').submit();}">
+                                                        <i class="align-middle ion ion-ios-alert"></i>
+                                                </a>
+
                                                 <a href="" onclick="event.preventDefault();if(confirm( 'Are you sure?')){
                                                     document.getElementById('delete_user_{{ $user->id }}').submit();}">
                                                     <i class="align-middle fas fa-fw fa-trash"></i>
                                                 </a>
+                                                <form id='block_user_{{ $user->id }}' action="{{ route('user.block', $user->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="id"  value="{{ $user->id }}">
+                                                </form>
                                                 <form id='delete_user_{{ $user->id }}' action="{{ route('user.destroy', $user->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')

@@ -106,14 +106,16 @@ $(function() {
                     let quantity = parseFloat($(`#quantity${id}`).text());
                     let price = parseFloat($(`#price${id}`).text());
                     let totalPrice = parseFloat($('#totalPrice').text())-price*quantity;
-                    //subtract quantity
+
+                    // total count remove all
                     $('#totalCount').empty();
                     $('#totalCount').append( total-quantity);
                     console.log(quantity);
+
                     //clear card
                     $(`#card${id}`).empty();
 
-                    //total price remove 1 element
+                    //total price remove elements
                     $('#totalPrice').empty();
                     $('#totalPrice').append(totalPrice.toFixed(2));
                 }

@@ -16,10 +16,10 @@
                             {{ session('error') }}
                         </div>
                     @endif
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" id='login-form' action="{{ route('login') }}">
                         @csrf
 
-                        <div class="row mb-3">
+                        <div class="row mb-3 error-placeholder">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
                             <div class="col-md-6">
@@ -34,11 +34,13 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row mb-3 error-placeholder">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input id="password" type="password" required
+                                class="form-control @error('password') is-invalid @enderror"
+                                name="password" autocomplete="current-password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -68,7 +70,7 @@
 
                             </div>
 
-                            <div class="col-md-8 offset-md-4">
+                            <div class="col-md-8 offset-md-4 ">
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link pl-0" href="{{ route('password.request') }}">
                                         {{ __('Forgot password?') }}

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\web;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Favorite;
+use App\Http\Requests\ChangeEmailForm;
 use App\Http\Requests\ProfileForm;
 use App\Http\Requests\ChangePasswordForm;
 
@@ -19,24 +21,27 @@ class UsersController extends Controller
     }
 
 
-    public function profile_edit(ProfileForm $request, User $user)
+    public function profile_edit(ProfileForm $request)
     {
+        $user = auth()->user();
         if(($request->has("thumbnail")) and ($user->thumbnail!=null)){
-            $this->deleteImage($product);
+            $this->deleteImage($user);
         }
-        if(Auth::user()->id == $user->id){
-
-            $user->update($this->saveImage($request,'user'));
-
-            return back()->with('success', "Changed Successfully");
-        }
-        return back()->with('Error', "It`s not your account");
+        $user->update($this->saveImage($request,'user'));
+        return back()->with('success', "Changed Successfully");
 
     }
-    public function change_password(ChangePasswordForm $request, User $user){
-
+    public function change_email(ChangeEmailForm $request){
+        $user= auth()->user();
+        $user->email = $request->validated()['email'];
+        $user->save();
+        return  redirect()->back()->with('success', "Changed Successfully");
+    }
+    public function change_password(ChangePasswordForm $request)
+    {
         $request->validated();
 
+        $user = auth()->user();
 	// The passwords matches
         if (!Hash::check($request->get('password'), $user->password))
         {
@@ -58,7 +63,7 @@ class UsersController extends Controller
 
     public function favorites()
     {
-        $favorites=Favorite::get(auth()->user()->id);
+        $favorites=Favorite::get(auth()->user()->id)->paginate(12);
         return view('web.users.favorites',[
             'favorites'=>$favorites,
         ]);
@@ -66,11 +71,17 @@ class UsersController extends Controller
 
     public function addToFavorite(Request $request)
     {
-        Favorite::add($request->input('id'), auth()->user()->id);
+        $request = Validator::make($request->all(), [
+            'id' => ['required','exists:products,id'],
+        ])->safe()->all();
+        Favorite::add($request['id'], auth()->user()->id);
         // return response()->json('status' =>, 200, $headers);
     }
     public function removeFromFavorite(Request $request)
     {
+        $request = Validator::make($request->all(), [
+            'id' => ['required','exists:products,id'],
+        ])->safe()->all();
         Favorite::remove($request->input('id'));
         // return response()->json('status' =>, 200, $headers);
     }
@@ -81,9 +92,10 @@ class UsersController extends Controller
     }
 
 
-    protected function deleteImage($product){
-        if(Storage::disk('public')->exists('user/'.$product->thumbnail)){
-            Storage::disk('public')->delete('user/'.$product->thumbnail);
+
+    protected function deleteImage($user){
+        if(Storage::disk('public')->exists('user/'.$user->thumbnail)){
+            Storage::disk('public')->delete('user/'.$user->thumbnail);
             /*
                 Delete Multiple files this way
                 Storage::delete(['upload/test.png', 'upload/test2.png']);
@@ -91,7 +103,7 @@ class UsersController extends Controller
         }
     }
 
-    protected function saveImage (ProductForm $request,$model)
+    protected function saveImage (ProfileForm $request,$model)
     {
         $data = $request->validated();
         if($request->has("thumbnail")){

@@ -40,7 +40,7 @@ class ProductsController extends Controller
     public function store(ProductForm $request)
     {
         Product::create($this->saveImage($request,'product'));
-        return redirect(route('product.index'));
+        return redirect(route('product.index', ['success' => "Add Successfully"]));
     }
 
     /**
@@ -78,7 +78,7 @@ class ProductsController extends Controller
             $this->deleteImage($product);
         }
         $product->update($this->saveImage($request, 'product'));
-        return redirect(route('product.edit', $product->id));
+        return redirect()->back()->with('success', "Changed Successfully");
     }
 
     /**
@@ -88,7 +88,7 @@ class ProductsController extends Controller
     {
         $this->deleteImage($product);
         $product->delete();
-        return redirect(route('product.index'));
+        return redirect(route('product.index',['success' =>"Delete Successfully"]));
 
     }
 
@@ -110,5 +110,13 @@ class ProductsController extends Controller
             $data["thumbnail"] = $thumbnail;
         }
         return $data;
+    }
+    public function hide( $product_id)
+    {
+        $product=Product::find($product_id);
+        $product->hidden=!$product->hidden;
+        $product->save();
+        return redirect()->back()->with('success', "Hide Successfully");
+
     }
 }

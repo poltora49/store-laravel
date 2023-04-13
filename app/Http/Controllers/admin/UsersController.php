@@ -5,8 +5,12 @@ namespace App\Http\Controllers\admin;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileForm;
+use App\Http\Requests\ChangePasswordForm;
+use App\Http\Requests\ChangeEmailForm;
 use App\Models\User;
 
 class UsersController extends Controller
@@ -56,7 +60,6 @@ class UsersController extends Controller
      */
     public function update(ProfileForm $request, User $user)
     {
-        $data = $this->saveImage($request,'user');
         if(($request->has("thumbnail")) and ($user->thumbnail!=null)){
             $this->deleteImage($user);
         }
@@ -71,7 +74,43 @@ class UsersController extends Controller
     {
         $this->deleteImage($user);
         $user->delete();
-        return redirect(route('user.index'));
+        return redirect(route('user.index',['success' => "Delete Successfully"]));
+    }
+
+    public function block($user_id){
+        $user=User::find($user_id);
+        $user->status=!$user->status;
+        $user->save();
+        return redirect()->back()->with('success', "Block Successfully");
+    }
+
+    public function change_email(ChangeEmailForm $request, $user_id){
+        $user=User::find($user_id);
+        $user->email = $request->validated()['email'];
+        $user->save();
+        return  redirect()->back()->with('success', "Changed Successfully");
+    }
+
+    public function change_password(ChangePasswordForm $request, $user_id)
+    {
+        $user=User::find($user_id);
+
+        $request->validated();
+	// The passwords matches
+        if (!Hash::check($request->get('password'), $user->password))
+        {
+            return back()->with('error', "Current Password is Invalid");
+        }
+
+    // Current password and new password same
+        if (strcmp($request->get('password'), $request->get('new_password')) == 0)
+        {
+            return redirect()->back()->with("error", "New Password cannot be same as your current password.");
+        }
+
+        $user->password =  Hash::make($request->new_password);
+        $user->save();
+        return back()->with('success', "Password Changed Successfully");
     }
 
     protected function deleteImage($user){
