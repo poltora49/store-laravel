@@ -47,11 +47,10 @@ Route::prefix('admin')->group(function () {
         });
     });
 });
-Route::middleware("auth:web")->group(function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Auth::routes();
-    Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
     Route::get('/transactions', [StripePaymentController::class, 'transactions'])->name('transactions');
-    Route::put('/profile/{edit', [UsersController::class, 'profile_edit'])->name('profile_edit');
+    Route::put('/profile/edit', [UsersController::class, 'profile_edit'])->name('profile_edit');
     Route::put('/profile/change-password', [UsersController::class, 'change_password'])->name('change_password');
     Route::put('/profile/change-email', [UsersController::class, 'change_email'])->name('change_email');
     Route::get('/favorites', [UsersController::class, 'favorites'])->name('favorites');
@@ -61,11 +60,13 @@ Route::middleware("auth:web")->group(function () {
     Route::get('/clear-favorite', [UsersController::class, 'clearFavorite'])->name('favorite.clear');
     Route::post('/stripe', [StripePaymentController::class, 'stripePost'])->name('stripe');
 });
-
+Route::middleware("auth:web")->group(function () {
+    Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
+});
 Route::middleware("guest:web")->group(function () {
 
 });
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/', [ProductsController::class, 'home'])->name('home');
 Route::get('/cart', [PaymentController::class, 'cart'])->name('cart');
@@ -74,6 +75,7 @@ Route::get('/add-to-cart', [PaymentController::class, 'addToCart'])->name('cart.
 Route::get('/remove-from-cart', [PaymentController::class, 'removeFromCart'])->name('cart.removeFromCart');
 Route::get('/remove-one-from-cart', [PaymentController::class, 'removeOneFromCart'])->name('cart.removeOneFromCart');
 Route::get('/clear-cart', [PaymentController::class, 'clearCart'])->name('cart.clearCart');
+
 
 Route::get('/products', [ProductsController::class, 'index'])->name('product.all');
 Route::get('/products/{id}', [ProductsController::class, 'category'])->name('product.category');

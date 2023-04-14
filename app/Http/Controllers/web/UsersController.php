@@ -33,9 +33,11 @@ class UsersController extends Controller
     }
     public function change_email(ChangeEmailForm $request){
         $user= auth()->user();
+        $user->email_verified_at = null;
         $user->email = $request->validated()['email'];
         $user->save();
-        return  redirect()->back()->with('success', "Changed Successfully");
+        $user-sendEmailVerificationNotification();
+        return  redirect()->back()->with('success', "Changed Successfully, please verified email");
     }
     public function change_password(ChangePasswordForm $request)
     {

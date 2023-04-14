@@ -26,6 +26,7 @@
     </header>
 
     <main class="contrainer py-4">
+        @include('notification.notification')
         @yield('content')
     </main>
 

@@ -15,7 +15,6 @@ class ProductsController extends Controller
 
         $categories = Category::query()->hidden()->get();
         $products = Product::query()->hidden()->limit(6)->get();
-
         return view('web.products.index', [
             "categories" => $categories,
             "products" => $products,

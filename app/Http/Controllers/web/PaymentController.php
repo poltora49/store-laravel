@@ -26,7 +26,6 @@ class PaymentController extends Controller
             'id' => ['required','exists:products,id'],
         ])->safe()->all();
         Cart::add($request['id']);
-        // return response()->json('status' =>, 200, $headers);
     }
     public function removeFromCart(Request $request)
     {
@@ -34,7 +33,6 @@ class PaymentController extends Controller
             'id' => ['required','exists:cart,id'],
         ])->safe()->all();
         Cart::remove($request['id']);
-        // return response()->json('status' =>, 200, $headers);
     }
     public function removeOneFromCart(Request $request)
     {
@@ -42,7 +40,6 @@ class PaymentController extends Controller
             'id' => ['required','exists:products,id'],
         ])->safe()->all();
         Cart::removeOne($request['id']);
-        // return response()->json('status' =>, 200, $headers);
     }
     public function clearCart()
     {
