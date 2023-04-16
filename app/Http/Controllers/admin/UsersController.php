@@ -28,14 +28,6 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('admin.users.create',[]);
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(User $user)
@@ -60,11 +52,16 @@ class UsersController extends Controller
      */
     public function update(ProfileForm $request, User $user)
     {
-        if(($request->has("thumbnail")) and ($user->thumbnail!=null)){
-            $this->deleteImage($user);
+        try {
+            if(($request->has("thumbnail")) and ($user->thumbnail!=null)){
+                $this->deleteImage($user);
+            }
+            $user->update($this->saveImage($request,'user'));
+            return redirect()->back()->with('success', "Changed successfully");
         }
-        $user->update($this->saveImage($request,'user'));
-        return back()->with('success', "Changed Successfully");
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', "Oops, something went wrong");
+        }
     }
 
     /**
@@ -72,9 +69,14 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
+        try {
         $this->deleteImage($user);
         $user->delete();
-        return redirect(route('user.index',['success' => "Delete Successfully"]));
+        return redirect()->route('user.index')->with('success', "Delete successfully");
+        }
+        catch (\Exception $e) {
+            return redirect()->route('user.index')->with('error', "Oops, something went wrong");
+        }
     }
 
     public function block($user_id){
@@ -84,15 +86,22 @@ class UsersController extends Controller
         return redirect()->back()->with('success', "Block Successfully");
     }
 
-    public function change_email(ChangeEmailForm $request, $user_id){
+    public function change_email(ChangeEmailForm $request, $user_id)
+    {
+        try{
         $user=User::find($user_id);
         $user->email = $request->validated()['email'];
         $user->save();
         return  redirect()->back()->with('success', "Changed Successfully");
+        }
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', "Oops, something went wrong");
+        }
     }
 
     public function change_password(ChangePasswordForm $request, $user_id)
     {
+        try{
         $user=User::find($user_id);
 
         $request->validated();
@@ -110,7 +119,11 @@ class UsersController extends Controller
 
         $user->password =  Hash::make($request->new_password);
         $user->save();
-        return back()->with('success', "Password Changed Successfully");
+        return redirect()->back()->with('success', "Password Changed Successfully");
+        }
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', "Oops, something went wrong");
+        }
     }
 
     protected function deleteImage($user){

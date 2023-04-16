@@ -5,9 +5,9 @@
 @endsection
 
 @section('content')
-    <section class="products-list container py-5">
-        <div class="row mt-2 g-4">
-            <div class="d-flex justify-content-center mt-3">
+    <section class="products-list py-2">
+        <div class="row g-4">
+            <div class="d-flex justify-content-center">
                 <h5 class="text">{{$category->title}}</h5>
             </div>
         </div>

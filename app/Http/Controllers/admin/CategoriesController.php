@@ -31,8 +31,13 @@ class CategoriesController extends Controller
      */
     public function store(CategoryForm $request)
     {
-        Category::create($this->saveImage($request,'category'));
-        return redirect(route('category.index', ['success' => "Add Successfully"]));
+        try {
+            Category::create($this->saveImage($request,'category'));
+            return redirect()->route('category.index')->with('success', "Add successfully");
+        }
+        catch (\Exception $e) {
+            return redirect()->route('category.index')->with('error', "Oops, something went wrong");
+        }
     }
 
     /**
@@ -60,11 +65,16 @@ class CategoriesController extends Controller
      */
     public function update(CategoryForm $request, Category $category)
     {
-        if(($request->has("thumbnail")) and ($category->thumbnail!=null)){
-            $this->deleteImage($category);
+        try {
+            if(($request->has("thumbnail")) and ($category->thumbnail!=null)){
+                $this->deleteImage($category);
+            }
+            $category->update($this->saveImage($request, 'category'));
+            return redirect()->back()->with('success', "Changed Successfully");
         }
-        $category->update($this->saveImage($request, 'category'));
-        return redirect()->back()->with('success', "Changed Successfully");
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', "Oops, something went wrong");
+        }
     }
 
     /**
@@ -72,9 +82,14 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
-        $this->deleteImage($category);
-        $category->delete();
-        return redirect(route('category.index', ['success' => "Delete Successfully"]));
+        try {
+            $this->deleteImage($category);
+            $category->delete();
+            return redirect()->route('category.index')->with('success', "Delete successfully");
+        }
+        catch (\Exception $e) {
+            return redirect()->route('category.index')->with('error', "Oops, something went wrong");
+        }
 
     }
 

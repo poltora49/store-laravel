@@ -20,6 +20,7 @@
             </nav>
         </div>
         <div class="row">
+            @include('admin.notification.notification')
             <div class="col-md-3 col-xl-2">
 
                 <div class="card">

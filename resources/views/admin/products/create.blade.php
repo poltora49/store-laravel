@@ -31,6 +31,7 @@
                         <h5 class="card-title mb-0">Product</h5>
                     </div>
                     <div class="card-body">
+                        @include('admin.notification.notification')
                         <form id="product-form"
                         action="
                         @if(isset($product)){{ route('product.update', $product->id) }}

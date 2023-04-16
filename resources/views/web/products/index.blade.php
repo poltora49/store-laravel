@@ -5,9 +5,9 @@
 @endsection
 
 @section('content')
-    <section class="category col container py-5">
-        <div class="row mt-2 g-4">
-            <div class="d-flex justify-content-center mt-3">
+    <section class="category col py-2">
+        <div class="row g-4">
+            <div class="d-flex justify-content-center">
                 <h5 class="text">Categories</h5>
             </div>
             @foreach ($categories as $category)

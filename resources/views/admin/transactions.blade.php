@@ -30,6 +30,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Time</th>
                                         <th>User</th>
                                         <th>Amount</th>
                                     </tr>
@@ -38,6 +39,7 @@
                                     @foreach ($transactions as $transaction)
                                         <tr>
                                             <td>{{$transaction->id}}</td>
+                                            <td>{{$transaction->created_at}}</td>
                                             <td>{{App\Models\User::findOrFail($transaction->user_id)->name}}</td>
                                             <td>{{$transaction->total_price/100}}</td>
                                         </tr>

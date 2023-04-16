@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\web;
 
+
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -23,24 +24,33 @@ class UsersController extends Controller
 
     public function profile_edit(ProfileForm $request)
     {
+        try {
         $user = auth()->user();
         if(($request->has("thumbnail")) and ($user->thumbnail!=null)){
             $this->deleteImage($user);
         }
         $user->update($this->saveImage($request,'user'));
         return back()->with('success', "Changed Successfully");
+        } catch (\Exception $e) {
+            return  redirect()->back()->with('error', "Oops, something went wrong");
+        }
 
     }
     public function change_email(ChangeEmailForm $request){
+        try {
         $user= auth()->user();
         $user->email_verified_at = null;
         $user->email = $request->validated()['email'];
         $user->save();
         $user-sendEmailVerificationNotification();
         return  redirect()->back()->with('success', "Changed Successfully, please verified email");
+        } catch (\Exception $e) {
+            return  redirect()->back()->with('error', "Oops, something went wrong");
+        }
     }
     public function change_password(ChangePasswordForm $request)
     {
+        try {
         $request->validated();
 
         $user = auth()->user();
@@ -58,7 +68,10 @@ class UsersController extends Controller
 
         $user->password =  Hash::make($request->new_password);
         $user->save();
-        return back()->with('success', "Password Changed Successfully");
+        return redirect()->back()->with('success', "Password Changed Successfully");
+        } catch (\Exception $e) {
+            return  redirect()->back()->with('error', "Oops, something went wrong");
+        }
     }
 
 
@@ -89,8 +102,13 @@ class UsersController extends Controller
     }
     public function clearFavorite()
     {
+        try {
         Favorite::flush(auth()->user()->id);
         return redirect()->back();
+
+        } catch (\Exception $e) {
+            return  redirect()->back()->with('error', "Oops, something went wrong");
+        }
     }
 
 

@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-<section class="products-list container py-5">
-    <div class="d-flex justify-content-center mt-3">
+<section class="products-list py-2">
+    <div class="d-flex justify-content-center">
         <h5 class="text">Favorites</h5>
         @if (count($favorites))
             <a class='ms-3' href='{{ route('favorite.clear') }}'>

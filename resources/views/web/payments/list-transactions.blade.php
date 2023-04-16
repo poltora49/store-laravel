@@ -5,11 +5,11 @@
 @endsection
 
 @section('content')
-    <section class="wrapper rounded  py-5">
-        <div class="d-flex justify-content-center mt-3">
+    <section class="wrapper rounded  py-2">
+        <div class="d-flex justify-content-center">
             <h5 class="text">Transaction</h5>
         </div>
-        <div class="table-responsive mt-3">
+        <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                     <tr>

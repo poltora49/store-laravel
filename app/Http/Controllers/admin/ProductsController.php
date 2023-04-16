@@ -39,8 +39,13 @@ class ProductsController extends Controller
      */
     public function store(ProductForm $request)
     {
-        Product::create($this->saveImage($request,'product'));
-        return redirect(route('product.index', ['success' => "Add Successfully"]));
+        try {
+            Product::create($this->saveImage($request,'product'));
+            return redirect()->route('product.index')->with('success', "Add Successfully");
+        }
+        catch (\Exception $e) {
+            return redirect()->route('product.index')->with('error', "Oops, something went wrong");
+        }
     }
 
     /**
@@ -74,11 +79,16 @@ class ProductsController extends Controller
      */
     public function update(ProductForm $request, Product $product)
     {
-        if(($request->has("thumbnail")) and ($product->thumbnail!=null)){
-            $this->deleteImage($product);
+        try {
+            if(($request->has("thumbnail")) and ($product->thumbnail!=null)){
+                $this->deleteImage($product);
+            }
+            $product->update($this->saveImage($request, 'product'));
+            return redirect()->back()->with('success', "Changed Successfully");
         }
-        $product->update($this->saveImage($request, 'product'));
-        return redirect()->back()->with('success', "Changed Successfully");
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', "Oops, something went wrong");
+        }
     }
 
     /**
@@ -86,9 +96,27 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
-        $this->deleteImage($product);
-        $product->delete();
-        return redirect(route('product.index',['success' =>"Delete Successfully"]));
+        try {
+            $this->deleteImage($product);
+            $product->delete();
+            return redirect()->route('product.index')->with('success', "Successfully delete");
+        }
+        catch (\Exception $e) {
+            return redirect()->route('product.index')->with('error', "Oops, something went wrong");
+        }
+
+    }
+
+    public function hide( $product_id)
+    {
+        try{
+            $product=Product::find($product_id);
+            $product->hidden=!$product->hidden;
+            $product->save();
+        return redirect()->back()->with('success', "Successfully ");        }
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', "Oops, something went wrong");
+        }
 
     }
 
@@ -110,13 +138,5 @@ class ProductsController extends Controller
             $data["thumbnail"] = $thumbnail;
         }
         return $data;
-    }
-    public function hide( $product_id)
-    {
-        $product=Product::find($product_id);
-        $product->hidden=!$product->hidden;
-        $product->save();
-        return redirect()->back()->with('success', "Hide Successfully");
-
     }
 }

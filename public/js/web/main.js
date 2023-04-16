@@ -18,21 +18,44 @@ $(function() {
             success: function (data) {
                 let value= $('#totalCount').text();
                 if(value=='')value='0';
+
                 // total count add 1
                 $('#totalCount').empty();
                 $('#totalCount').append( parseFloat(value)+1);
+
                 // quantity add 1
                 quantity = $('#quantity'+id).text();
                 $(`#quantity${id}`).text(parseFloat(quantity)+1)
+
                 //total price add 1 element
                 totalPrice = parseFloat($('#totalPrice').text())+parseFloat($(`#price${id}`).text());
                 console.log(totalPrice);
                 $('#totalPrice').empty();
                 $('#totalPrice').append(totalPrice.toFixed(2));
 
+                //notification
+                if($(!`#alertNoAddToCart`).hasClass('d-none')){
+                    $(`#alertTextNoAddToCart`).empty();
+                    $(`#alertNoAddToCart`).addClass('d-none');
+                }
+                if( $(`#alertAddToCart`).hasClass('d-none') )
+                    $(`#alertAddToCart`).removeClass('d-none');
+
+                $(`#alertTextAddToCart`).empty();
+                $(`#alertTextAddToCart`).text('Success add to cart');
+
             },
             error: function (data) {
                 console.log('Error:', data);
+                //notification
+                if($(!`#alertAddToCart`).hasClass('d-none')){
+                    $(`#alerTextAddToCart`).empty();
+                    $(`#alertAddToCart`).addClass('d-none');
+                }
+                if( $(`#alertNoAddToCart`).hasClass('d-none') )
+                    $(`#alertNoAddToCart`).removeClass('d-none');
+                $(`#alertTextNoAddToCart`).empty();
+                $(`#alertTextNoAddToCart`).text('Oops, something went wrong"');
             }
         });
     });

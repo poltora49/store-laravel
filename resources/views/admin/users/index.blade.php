@@ -26,6 +26,7 @@
                             <h5 class="card-title mb-0">Clients</h5>
                         </div>
                         <div class="card-body">
+                            @include('admin.notification.notification')
                             <table id="datatables-clients" class="table table-striped" style="width:100%">
                                 <thead>
                                     <tr>

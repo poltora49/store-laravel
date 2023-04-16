@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="container-xl px-4 mt-4">
+<div class=" p-4 ">
 
         <div class="row">
             <form enctype="multipart/form-data" method="POST" action="{{route('profile_edit')}}">

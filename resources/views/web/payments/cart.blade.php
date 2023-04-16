@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="container h-100 h-custom py-5">
+    <div class="h-100 h-custom py-2">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12">
                 <div class="card card-registration card-registration-2" style="border-radius: 15px;">

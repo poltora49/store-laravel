@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<section class="container py-5">
+<section class="py-2">
 
     <div class="card mb-3 mx-auto"style=" max-width:800px">
         <img src="/storage/product/{{ $product->thumbnail }}" class="img-fluid rounded-start" alt="...">

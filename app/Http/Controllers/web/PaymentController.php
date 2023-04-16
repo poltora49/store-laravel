@@ -43,7 +43,13 @@ class PaymentController extends Controller
     }
     public function clearCart()
     {
+        try {
         Cart::flush();
         return redirect()->back();
+        return back()->with('success', "Password Changed Successfully");
+
+        } catch (\Exception $e) {
+            return  redirect()->back()->with('error', "Oops, something went wrong");
+        }
     }
 }
