@@ -46,7 +46,7 @@
                     <a class="nav-link" href="{{ route('favorites')}}">Favorites</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login')}}">My transactions</a>
+                    <a class="nav-link" href="{{ route('transactions')}}">My transactions</a>
                 </li>
                 <li class="nav-item">
                     <a class="dropdown-item text-danger"

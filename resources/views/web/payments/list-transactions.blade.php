@@ -15,6 +15,7 @@
                     <tr>
                         <th>Activity</th>
                         <th>Date</th>
+                        <th>status</th>
                         <th>Amount</th>
                     </tr>
                 </thead>
@@ -23,6 +24,7 @@
                     <tr>
                             <td>Stripe</td>
                             <td>{{$transaction->created_at}}</td>
+                            <td>{{$transaction->status}}</td>
                             <td> {{$transaction->total_price/100}}$ </td>
                     </tr>
                         @endforeach

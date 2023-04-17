@@ -15,22 +15,20 @@ class Transaction extends Model
     protected $fillable = [
         'total_price',
         'user_id',
+        'status',
+        'session_id',
     ];
 
     public function users(){
         return $this->belongsTo(User::class);
     }
-    public static function add(){
-        // if(auth()->check()){
+    public static function add($session){
             $transaction = self::create([
                 'user_id' => auth()->user()->id,
+                'status' => 'unpaid',
+                'session_id' => $session->id,
                 'total_price' => Cart::total(),
             ]);
-            $transaction = self::create([
-                'user_id' => 1,
-                'total_price' => 1,
-            ]);
-        // }
     }
     public static function getForUser(){
         return self::where(['user_id'=>auth()->user()->id])->orderBy('created_at')->get();

@@ -32,7 +32,9 @@
                                         <th>#</th>
                                         <th>Time</th>
                                         <th>User</th>
+                                        <th>Status</th>
                                         <th>Amount</th>
+                                        <th>Session id</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,7 +43,9 @@
                                             <td>{{$transaction->id}}</td>
                                             <td>{{$transaction->created_at}}</td>
                                             <td>{{App\Models\User::findOrFail($transaction->user_id)->name}}</td>
+                                            <td>{{$transaction->status}}</td>
                                             <td>{{$transaction->total_price/100}}</td>
+                                            <td>{{$transaction->session_id}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
