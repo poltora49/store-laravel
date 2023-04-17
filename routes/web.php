@@ -60,8 +60,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/clear-favorite', [UsersController::class, 'clearFavorite'])->name('favorite.clear');
     Route::post('/stripe', [StripePaymentController::class, 'stripePost'])->name('stripe');
     Route::get('/succses', [StripePaymentController::class, 'succses'])->name('stripe.succses');
-    Route::get('/webhook', [StripePaymentController::class, 'webhook'])->name('stripe.webhook');
 });
+Route::post('/webhook', [StripePaymentController::class, 'webhook'])->name('stripe.webhook');
 Route::middleware("auth:web")->group(function () {
     Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
 });

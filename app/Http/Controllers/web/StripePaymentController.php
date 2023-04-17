@@ -51,10 +51,10 @@ class StripePaymentController extends Controller
             $session = $event->data->object;
 
             $transaction = Transaction::where('session_id', $session->id)->first();
-            // if($transaction && $transaction->status == 'unpaid') {
+            if($transaction && $transaction->status == 'unpaid') {
                 $transaction->status = 'paid';
                 $transaction->save();
-            // }
+            }
         default:
             echo 'Received unknown event type ' . $event->type;
         }
