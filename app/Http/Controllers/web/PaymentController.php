@@ -20,6 +20,7 @@ class PaymentController extends Controller
             "carts" => $carts,
         ]);
     }
+
     public function addToCart(Request $request)
     {
         $request = Validator::make($request->all(), [
@@ -27,6 +28,7 @@ class PaymentController extends Controller
         ])->safe()->all();
         Cart::add($request['id']);
     }
+
     public function removeFromCart(Request $request)
     {
         $request = Validator::make($request->all(), [
@@ -34,6 +36,7 @@ class PaymentController extends Controller
         ])->safe()->all();
         Cart::remove($request['id']);
     }
+
     public function removeOneFromCart(Request $request)
     {
         $request = Validator::make($request->all(), [
@@ -41,6 +44,7 @@ class PaymentController extends Controller
         ])->safe()->all();
         Cart::removeOne($request['id']);
     }
+    
     public function clearCart()
     {
         try {

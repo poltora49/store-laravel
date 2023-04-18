@@ -64,6 +64,9 @@ class StripePaymentController extends Controller
 
     public function stripePost(Request $request)
     {
+        if(Cart::count()==0)
+            return redirect()->route('home')->with('error', 'Your cart is empty');
+
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         $carts= Cart::get();
 

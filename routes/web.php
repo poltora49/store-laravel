@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/stripe', [StripePaymentController::class, 'stripePost'])->name('stripe');
     Route::get('/succses', [StripePaymentController::class, 'succses'])->name('stripe.succses');
 });
+
 Route::middleware("auth:web")->group(function () {
     Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
 });

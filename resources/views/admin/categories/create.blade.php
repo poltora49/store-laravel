@@ -56,10 +56,6 @@
                                     <div class="">
                                         <img class="rounded me-2 mb-2" src="/storage/category/{{$category->thumbnail}}" alt="Placeholder" width="140" height="140">
                                     </div>
-                                @else
-                                <div class="">
-                                    <img class="rounded me-2 mb-2" src="../img/whithout.jpg" alt="Placeholder" width="140" height="140">
-                                </div>
                                 @endif
                             @endif
                             <div class="mb-3 error-placeholder">

@@ -20,6 +20,7 @@ class ProductsController extends Controller
             "products" => $products,
         ]);
     }
+
     public function index()
     {
         $categories = Category::query()->hidden()->get();
@@ -30,6 +31,7 @@ class ProductsController extends Controller
             "products" => $products,
         ]);
     }
+
     public function show($id)
     {
         $product = Product::findOrFail($id);
@@ -46,6 +48,7 @@ class ProductsController extends Controller
             "product" => $product,
         ]);
     }
+
     public function category($id){
         $category = Category::findOrFail($id);
         $products = Product::hidden()->categoryName($id)->paginate(12);

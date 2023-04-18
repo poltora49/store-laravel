@@ -15,9 +15,7 @@ use App\Models\User;
 
 class UsersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $users = User::query()->get();
@@ -27,9 +25,7 @@ class UsersController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(User $user)
     {
         return view('Admin.users.show',[
@@ -37,9 +33,7 @@ class UsersController extends Controller
             ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(User $user)
     {
         return view('Admin.users.create',[
@@ -47,9 +41,7 @@ class UsersController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(ProfileForm $request, User $user)
     {
         try {
@@ -64,9 +56,7 @@ class UsersController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(User $user)
     {
         try {

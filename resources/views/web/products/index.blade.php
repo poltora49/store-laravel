@@ -12,15 +12,15 @@
             <h5 class="text">Categories</h5>
         </div>
         <div class="row g-4 px-4 px-sm-5 mt-5 ">
-            @foreach ($categories as $category)
+            @foreach ($categories as $categoryLoop)
                 <a class=" link-underline link-underline-opacity-0 col-md-3 " style="min-width: 300px;"
-                href="{{route("product.category", $category->id)}}">
+                href="{{route("product.category", $categoryLoop->id)}}">
                     <div class="card p-1">
                         <div class="d-flex justify-content-between align-items-center p-2">
-                            <div class="flex-column lh-1 imagename"> <span>{{ $category->title }}</span></div>
-                            @if ($category->thumbnail)
+                            <div class="flex-column lh-1 imagename"> <span>{{ $categoryLoop->title }}</span></div>
+                            @if ($categoryLoop->thumbnail)
                                 <div>
-                                    <img src="/storage/category/{{ $category->thumbnail }}" height="100" width="100" alt="category"/>
+                                    <img src="/storage/category/{{ $categoryLoop->thumbnail }}" height="100" width="100" alt="category"/>
                                 </div>
                             @endif
                         </div>
