@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+@include('notification.notification')
+
 <section class="products-list py-2">
     <div class="d-flex justify-content-center">
         <h5 class="text">Favorites</h5>

@@ -5,8 +5,9 @@
 @endsection
 
 @section('content')
-<div class=" p-4 ">
+@include('notification.notification')
 
+<div class=" p-4 ">
         <div class="row">
             <form enctype="multipart/form-data" method="POST" action="{{route('profile_edit')}}">
                 @method('PUT')
@@ -20,10 +21,10 @@
                             <div class="rounded-circle mb-2 mx-auto" style="width: 150px;height: 150px;display: block;overflow: hidden">
                                 <img class="img-account-profile " style="height: 150px;"
                                 alt="Avatar"
-                                src="/storage/user/{{ auth()->user()->thumbnail }}" alt="">
+                                src="/storage/user/{{ auth()->user()->thumbnail }}" alt="Avatar">
                             </div>
                             @else
-                                <img class="img-account-profile rounded-circle mb-2" src="{{ asset('img/profile-icon.png') }}" alt="">
+                                <img class="img-account-profile rounded-circle mb-2" src="{{ asset('img/profile-icon.png') }}" alt="default avatar">
                             @endif
                             <!-- Profile picture help block-->
                             <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 9mb</div>
@@ -97,7 +98,7 @@
                                     <!-- Form Group (Current password)-->
                                 <div class="mb-3">
                                     <label class="small mb-1">Current password</label>
-                                    <input class="form-control" required name="password" minlength="3"
+                                    <input class="form-control" required name="password" minlength="6"
                                     type="password" placeholder="Enter your password" autocomplete="off">
                                     @error('password')
                                     <p class="text-danger">
@@ -109,7 +110,7 @@
                                     <!-- Form Group (New password)-->
                                     <div class="col-md-6">
                                         <label class="small mb-1">New password</label>
-                                        <input class="form-control" required name="new_password" minlength="3" type="password"
+                                        <input class="form-control" required name="new_password" minlength="6" type="password"
                                         placeholder="Enter your new password" autocomplete="off">
                                         @error('new_password')
                                         <p class="text-danger">
@@ -120,7 +121,7 @@
                                     <!-- Form Group (Confirm new password)-->
                                     <div class="col-md-6">
                                         <label class="small mb-1">Confirm new password</label>
-                                        <input class="form-control" name="new_password_confirmation" minlength="3"
+                                        <input class="form-control" name="new_password_confirmation" minlength="6"
                                         type="password" placeholder="Enter your new password" required autocomplete="off">
                                         @error('new_password_confirmation')
                                         <p class="text-danger">

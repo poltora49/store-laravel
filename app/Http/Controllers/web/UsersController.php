@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\web;
+namespace App\Http\Controllers\Web;
 
 
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +18,7 @@ class UsersController extends Controller
 {
     public function profile()
     {
-        return view('web.users.profile');
+        return view('Web.users.profile');
     }
 
 
@@ -42,7 +42,6 @@ class UsersController extends Controller
         $user->email_verified_at = null;
         $user->email = $request->validated()['email'];
         $user->save();
-        $user-sendEmailVerificationNotification();
         return  redirect()->back()->with('success', "Changed Successfully, please verified email");
         } catch (\Exception $e) {
             return  redirect()->back()->with('error', "Oops, something went wrong");
@@ -79,7 +78,7 @@ class UsersController extends Controller
     public function favorites()
     {
         $favorites=Favorite::get(auth()->user()->id)->paginate(12);
-        return view('web.users.favorites',[
+        return view('Web.users.favorites',[
             'favorites'=>$favorites,
         ]);
     }
@@ -97,7 +96,7 @@ class UsersController extends Controller
         $request = Validator::make($request->all(), [
             'id' => ['required','exists:products,id'],
         ])->safe()->all();
-        Favorite::remove($request->input('id'));
+        Favorite::remove($request['id']);
         // return response()->json('status' =>, 200, $headers);
     }
     public function clearFavorite()

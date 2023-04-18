@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\admin;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +11,7 @@ class LoginAdminForm extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return true;
     }
 
     /**

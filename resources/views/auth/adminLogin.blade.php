@@ -76,7 +76,6 @@
                 "password": {
                     required: true,
                     minlength: 3,
-                    maxlength: 30
                 },
                 "email": {
                     required:true,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\web;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ class ProductsController extends Controller
 
         $categories = Category::query()->hidden()->get();
         $products = Product::query()->hidden()->limit(6)->get();
-        return view('web.products.index', [
+        return view('Web.products.index', [
             "categories" => $categories,
             "products" => $products,
         ]);
@@ -25,7 +25,7 @@ class ProductsController extends Controller
         $categories = Category::query()->hidden()->get();
         $products = Product::query()->hidden()->paginate(12);
 
-        return view('web.products.index', [
+        return view('Web.products.index', [
             "categories" => $categories,
             "products" => $products,
         ]);
@@ -37,12 +37,12 @@ class ProductsController extends Controller
         if(auth()->check()){
             $favorite = Favorite::where(['user_id'=>auth()->user()->id, 'product_id'=>$product->id])->first();
 
-            return view('web.products.show', [
+            return view('Web.products.show', [
                 "product" => $product,
                 "favorite" => $favorite,
             ]);
         }
-        else return view('web.products.show', [
+        else return view('Web.products.show', [
             "product" => $product,
         ]);
     }
@@ -50,7 +50,7 @@ class ProductsController extends Controller
         $category = Category::findOrFail($id);
         $products = Product::hidden()->categoryName($id)->paginate(12);
 
-        return view('web.products.category', [
+        return view('Web.products.index', [
             "category" => $category,
             "products" => $products,
         ]);

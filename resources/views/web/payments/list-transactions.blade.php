@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+@include('notification.notification')
+
     <section class="wrapper rounded  py-2">
         <div class="d-flex justify-content-center">
             <h5 class="text">Transaction</h5>

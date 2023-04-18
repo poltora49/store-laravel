@@ -44,7 +44,7 @@
                                             <td>{{$transaction->created_at}}</td>
                                             <td>{{App\Models\User::findOrFail($transaction->user_id)->name}}</td>
                                             <td>{{$transaction->status}}</td>
-                                            <td>{{$transaction->total_price/100}}</td>
+                                            <td>{{$transaction->total_price/100}}$</td>
                                             <td>{{$transaction->session_id}}</td>
                                         </tr>
                                     @endforeach

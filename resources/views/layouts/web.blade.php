@@ -26,7 +26,6 @@
     </header>
 
     <main class="container-xl py-4 mt-5">
-        @include('notification.notification')
         @yield('content')
     </main>
 

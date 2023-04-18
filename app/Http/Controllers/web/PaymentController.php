@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\web;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +16,7 @@ class PaymentController extends Controller
     {
         $carts = Cart::get();
 
-        return view('web.payments.cart', [
+        return view('Web.payments.cart', [
             "carts" => $carts,
         ]);
     }

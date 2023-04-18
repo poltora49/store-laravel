@@ -8,10 +8,10 @@
     <a href='{{ route('web.product.show', $cart->product_id) }}' class="col-md-2 col-lg-2 col-xl-2">
         @if($product->thumbnail)
         <img src="storage/product/{{$product->thumbnail}}"
-            class="img-fluid rounded-3" alt="Cotton T-shirt">
+            class="img-fluid rounded-3" alt="product">
         @else
         <img src="img/without.jpg"
-            class="img-fluid rounded-3" alt="Cotton T-shirt">
+            class="img-fluid rounded-3" alt="default product">
         @endif
     </a>
     <div class="col-md-3 col-lg-3 col-xl-3">
@@ -38,7 +38,7 @@
         </a>
     </div>
     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-        <h6 class="mb-0" >€ <span id="price{{$cart->product_id}}">{{$cart->price/100 }}</span></h6>
+        <h6 class="mb-0" >€ <span id="price{{$cart->product_id}}">{{$cart->price }}</span></h6>
     </div>
     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
         @auth('web')

@@ -12,7 +12,7 @@ class CheckBanned
     public function handle(Request $request, Closure $next)
     {
         if(auth("web")->check() && (auth("web")->user()->status == false)){
-            Auth::logout();
+            Auth::guard('web')->logout();
 
             $request->session()->invalidate();
 

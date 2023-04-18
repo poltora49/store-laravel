@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers as AuthenticatesUsers;
 use \Illuminate\Support\Facades\Auth;
-use App\Http\Requests\admin\LoginAdminForm;
+use App\Http\Requests\Admin\LoginAdminForm;
 
 
 class AdminLoginController extends Controller

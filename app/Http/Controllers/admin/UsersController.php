@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +22,7 @@ class UsersController extends Controller
     {
         $users = User::query()->get();
 
-        return view('admin.users.index', [
+        return view('Admin.users.index', [
             "users" => $users,
         ]);
     }
@@ -32,7 +32,7 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        return view('admin.users.show',[
+        return view('Admin.users.show',[
             "user" => $user,
             ]);
     }
@@ -42,7 +42,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.create',[
+        return view('Admin.users.create',[
         "user" => $user,
         ]);
     }
@@ -80,16 +80,24 @@ class UsersController extends Controller
     }
 
     public function block($user_id){
+        try {
         $user=User::find($user_id);
         $user->status=!$user->status;
         $user->save();
-        return redirect()->back()->with('success', "Block Successfully");
+        if(!$user->status)
+            return redirect()->back()->with('success', "Block Successfully");
+        return redirect()->back()->with('success', "Unblock Successfully");
+        }
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', "Oops, something went wrong");
+        }
     }
 
     public function change_email(ChangeEmailForm $request, $user_id)
     {
         try{
         $user=User::find($user_id);
+        $user->email_verified_at = null;
         $user->email = $request->validated()['email'];
         $user->save();
         return  redirect()->back()->with('success', "Changed Successfully");

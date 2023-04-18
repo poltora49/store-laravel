@@ -17,6 +17,15 @@ class Cart extends Model
         'price',
         'quantity'
     ];
+    public function getPriceAttribute($value)
+    {
+        return $value/100;
+    }
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = $value*100;
+    }
 
     public static function get(){
        return self::where(['session_id'=>session()->getId()])->get();
@@ -85,8 +94,8 @@ class Cart extends Model
 
     public static function total()  {
         return self::where(['session_id'=>session()->getId()])->get()->map(function ($item){
-            return $item->price*$item->quantity;
-        })->sum();
+            return ($item->price*100)*$item->quantity;
+        })->sum()/100;
     }
 
 

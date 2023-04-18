@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ class PaymentsController extends Controller
 {
     public function transaction(){
         $transactions = Transaction::query()->get();
-        return view('admin.transactions',[
+        return view('Admin.transactions',[
             'transactions' => $transactions,
         ]);
     }

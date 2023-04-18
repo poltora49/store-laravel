@@ -34,7 +34,7 @@ $(function() {
                 $('#totalPrice').append(totalPrice.toFixed(2));
 
                 //notification
-                if($(!`#alertNoAddToCart`).hasClass('d-none')){
+                if(!$(`#alertNoAddToCart`).hasClass('d-none')){
                     $(`#alertTextNoAddToCart`).empty();
                     $(`#alertNoAddToCart`).addClass('d-none');
                 }
@@ -48,8 +48,8 @@ $(function() {
             error: function (data) {
                 console.log('Error:', data);
                 //notification
-                if($(!`#alertAddToCart`).hasClass('d-none')){
-                    $(`#alerTextAddToCart`).empty();
+                if(!$(`#alertAddToCart`).hasClass('d-none')){
+                    $(`#alertTextAddToCart`).empty();
                     $(`#alertAddToCart`).addClass('d-none');
                 }
                 if( $(`#alertNoAddToCart`).hasClass('d-none') )
@@ -75,7 +75,7 @@ $(function() {
             data: {'id': id},
             success: function (data) {
                 var total= $('#totalCount').text();
-                if(parseFloat(total)!=1){
+                if(parseInt(total)!=1){
                     $('#totalCount').empty();
                     $('#totalCount').append( parseFloat(total)-1);
                     let quantity = $(`#quantity${id}`).text();
@@ -100,6 +100,8 @@ $(function() {
                     // all clear
                     $('#totalCount').empty();
                     $('#summary').empty();
+                    $(`#card${id}`).empty();
+
                 }
 
             },
@@ -124,9 +126,9 @@ $(function() {
             type: 'GET',
             data: {'id': cart_id},
             success: function (data) {
-                let total= parseFloat($('#totalCount').text());
-                if(total!=1){
-                    let quantity = parseFloat($(`#quantity${id}`).text());
+                let total= $('#totalCount').text();
+                let quantity = parseInt($(`#quantity${id}`).text());
+                if(parseInt(total)!=quantity){
                     let price = parseFloat($(`#price${id}`).text());
                     let totalPrice = parseFloat($('#totalPrice').text())-price*quantity;
 
@@ -146,6 +148,8 @@ $(function() {
                     // all clear
                     $('#totalCount').empty();
                     $('#summary').empty();
+                    $(`#card${id}`).empty();
+
                 }
 
             },
@@ -169,6 +173,7 @@ $(function() {
             type: 'GET',
             data: {'id': id},
             success: function (data) {
+
                 if($(`#favorite_change${id}`).hasClass( "add-to-favorite" )){
                     $(`#heart${id}`).attr('fill', 'red');
                     $(`#favorite_change${id}`).removeClass('add-to-favorite');
@@ -180,6 +185,14 @@ $(function() {
             },
             error: function (data) {
                 console.log('Error:', data);
+                if(!$(`#alertAddToCart`).hasClass('d-none')){
+                    $(`#alertTextAddToCart`).empty();
+                    $(`#alertAddToCart`).addClass('d-none');
+                }
+                if($(`#alertNoAddToCart`).hasClass('d-none') )
+                    $(`#alertNoAddToCart`).removeClass('d-none');
+                $(`#alertTextNoAddToCart`).empty();
+                $(`#alertTextNoAddToCart`).text('Error. Have you verified your account?');
             }
         });
     });

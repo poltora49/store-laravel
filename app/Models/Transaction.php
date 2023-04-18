@@ -27,11 +27,11 @@ class Transaction extends Model
                 'user_id' => auth()->user()->id,
                 'status' => 'unpaid',
                 'session_id' => $session->id,
-                'total_price' => Cart::total(),
+                'total_price' => Cart::total()*100,
             ]);
     }
     public static function getForUser(){
-        return self::where(['user_id'=>auth()->user()->id])->orderBy('created_at')->get();
+        return self::where(['user_id'=>auth()->user()->id])->latest()->get();
     }
 
 }

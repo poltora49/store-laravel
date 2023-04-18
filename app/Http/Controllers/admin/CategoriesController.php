@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Http\Requests\admin\CategoryForm;
+use App\Http\Requests\Admin\CategoryForm;
 
 class CategoriesController extends Controller
 {
@@ -14,7 +14,7 @@ class CategoriesController extends Controller
     {
         $categories = Category::query()->get();
 
-        return view('admin.categories.index', [
+        return view('Admin.categories.index', [
             "categories" => $categories,
         ]);
     }
@@ -23,7 +23,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create',[]);
+        return view('Admin.categories.create',[]);
     }
 
     /**
@@ -41,21 +41,11 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        return view('admin.categories.show',[
-            "category" => $category,
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Category $category)
     {
-        return view('admin.categories.create',[
+        return view('Admin.categories.create',[
             "category" => $category,
         ]);
     }

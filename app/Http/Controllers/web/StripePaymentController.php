@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\web;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class StripePaymentController extends Controller
     {
         $transactions = Transaction::getForUser();
 
-        return view('web.payments.list-transactions',[
+        return view('Web.payments.list-transactions',[
             'transactions' =>$transactions
         ]);
     }
@@ -72,14 +72,14 @@ class StripePaymentController extends Controller
 
                 foreach ($carts as $cart){
                     $product = Product::find($cart->product_id);
-                    $total_price+=$cart->price*$cart->quantity;
+                    $total_price+=($cart->price*100)*$cart->quantity;
                     $items_to_buy[]=[
                         "price_data" => [
                             "currency" => "usd",
                             "product_data" => [
                                 "name" => $product->title,
                             ],
-                            "unit_amount" => $cart->price,
+                            "unit_amount" => $cart->price*100,
                         ],
                         "quantity" => $cart->quantity,
                     ];
@@ -92,6 +92,7 @@ class StripePaymentController extends Controller
                 "cancel_url" => route("transactions"),
         ]);
         Transaction::add($checkout_session);
+        Cart::flush();
         return redirect($checkout_session->url);
     }
     public function succses(Request $request){
@@ -106,9 +107,7 @@ class StripePaymentController extends Controller
             // $customer = \Stripe\Customer::retrieve($session->custumer);
 
             $transaction = Transaction::where('user_id', auth()->user()->id)
-                ->where('session_id', $session_id)
-                ->where('status', 'unpaid')
-                ->first();
+                ->where('session_id', $session_id)->first();
             if(!$transaction){
                 return redirect()->route("transactions")->with('error', "Create payment cancelled");
             }
@@ -116,8 +115,6 @@ class StripePaymentController extends Controller
                 $transaction->status = 'paid';
                 $transaction->save();
             }
-
-            Cart::flush();
             return redirect()->route("transactions")->with('success', "Create payment successfully");
         } catch (\Exception $e) {
             return redirect()->route("transactions")->with('error', "Create payment cancelled");

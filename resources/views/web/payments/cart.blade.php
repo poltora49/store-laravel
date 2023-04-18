@@ -5,12 +5,12 @@
 @endsection
 
 @section('content')
+
     <div class="h-100 h-custom py-2">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12">
                 <div class="card card-registration card-registration-2" style="border-radius: 15px;">
                     <div class="card-body p-0 row g-0">
-
                         <div class="col-lg-8">
                             <div class="p-5">
                                 <div class="d-flex justify-content-between align-items-center mb-5">
@@ -55,7 +55,7 @@
                                 <hr class="my-4">
                                 <div class="d-flex justify-content-between mb-5">
                                     <h5 class="text-uppercase">Total price</h5>
-                                    <h5>€ <span id="totalPrice">{{\App\Models\Cart::total()/100}}<span></h5>
+                                    <h5>€ <span id="totalPrice">{{\App\Models\Cart::total()}}<span></h5>
                                 </div>
                                 <form method="POST" action="{{route('stripe')}}">
                                 @csrf

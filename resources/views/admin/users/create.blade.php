@@ -36,13 +36,14 @@
                             Password
                         </a>
                         <a class="list-group-item list-group-item-action" data-bs-toggle="list"
-                        onclick="event.preventDefault();if(confirm( 'Are you sure?')){
+                        onclick="event.preventDefault();
+                        if(confirm(`You really want to @if($user->status) block @else unblock @endif user {{$user->name}}?`)){
                             document.getElementById('block_user_{{ $user->id }}').submit();}">
                             @if($user->status)Block @else Unblock @endif
                         </a>
 
                         <a class="list-group-item list-group-item-action" data-bs-toggle="list"
-                        onclick="event.preventDefault();if(confirm( 'Are you sure?')){
+                        onclick="event.preventDefault();if(confirm( 'You really want to delete user {{$user->name}}?')){
                             document.getElementById('delete_user_{{ $user->id }}').submit();}">
                             Delete
                         </a>
@@ -154,7 +155,6 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Password</h5>
-                                <h5 class="card-title">{{$user->password}}</h5>
                                 <form id='user-form-password' action="{{ route('user.change_password', $user->id) }}"
                                     method="POST" enctype="multipart/form-data">
                                     @csrf
@@ -206,7 +206,7 @@
             focusInvalid: false,
             rules: {
                 "name": {
-                    required: false,
+                    required: true,
                     minlength: 3,
                     maxlength: 50
                 },
@@ -278,17 +278,17 @@
                 "password": {
                     required: true,
                     minlength: 6,
-                    maxlength: 30
+                    maxlength: 40
                 },
                 "new_password": {
                     required: true,
                     minlength: 6,
-                    maxlength: 30
+                    maxlength: 40
                 },
                 "new_password_confirmation": {
                     required: true,
                     minlength: 6,
-                    maxlength: 30,
+                    maxlength: 40,
                     equalTo: "input[name=\"new_password\"]"
                 },
 

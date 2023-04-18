@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
-use App\Http\Requests\admin\ProductForm;
+use App\Http\Requests\Admin\ProductForm;
 
 class ProductsController extends Controller
 {
@@ -18,7 +18,7 @@ class ProductsController extends Controller
     {
         $products = Product::query()->get();
 
-        return view('admin.products.index', [
+        return view('Admin.products.index', [
             "products" => $products,
         ]);
     }
@@ -29,7 +29,7 @@ class ProductsController extends Controller
     public function create()
     {
         $categories = Category::query()->get();
-        return view('admin.products.create',[
+        return view('Admin.products.create',[
             "categories" => $categories,
         ]);
     }
@@ -49,26 +49,13 @@ class ProductsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
-    {
-        $categories = Category::query()->get();
-
-        return view('admin.products.show',[
-            "product" => $product,
-            "categories" => $categories,
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Product $product)
     {
         $categories = Category::query()->get();
 
-        return view('admin.products.create',[
+        return view('Admin.products.create',[
             "product" => $product,
             "categories" => $categories,
         ]);
@@ -113,7 +100,10 @@ class ProductsController extends Controller
             $product=Product::find($product_id);
             $product->hidden=!$product->hidden;
             $product->save();
-        return redirect()->back()->with('success', "Successfully ");        }
+            if($product->hidden)
+                return redirect()->back()->with('success', "Successfully hide");
+            return redirect()->back()->with('success', "Successfully unhide");
+            }
         catch (\Exception $e) {
             return redirect()->back()->with('error', "Oops, something went wrong");
         }
