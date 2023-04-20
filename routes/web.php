@@ -23,10 +23,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::post('/stripe', [StripePaymentController::class, 'stripePost'])->name('stripe');
     Route::get('/succses', [StripePaymentController::class, 'succses'])->name('stripe.succses');
+    Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
 });
 
 Route::middleware("auth:web")->group(function () {
-    Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
 });
 
 Route::post('/webhook', [StripePaymentController::class, 'webhook'])->name('stripe.webhook');

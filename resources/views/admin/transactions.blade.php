@@ -64,7 +64,7 @@
             $("#datatables-clients").DataTable({
                 responsive: true,
                 order: [
-                    [1, "asc"]
+                    [1, "desk"]
                 ]
             });
         });
